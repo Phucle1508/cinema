@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login & Register Form</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./style/login_register.css" />
+  </head>
+  <body>
+    <div class="section1">
+      <div class="overplay"></div>
+      <div class="container">
+        <div class="row full-height justify-content-center">
+          <div class="col-12 text-center align-self-center py-5">
+            <div class="section pb-5 pt-5 pt-sm-2 text-center">
+              <h6 class="mb-0 pb-3">
+                <span>Log In </span><span>Sign Up</span>
+              </h6>
+              <input
+                class="checkbox"
+                type="checkbox"
+                id="reg-log"
+                name="reg-log"
+              />
+              <label for="reg-log"></label>
+              <div class="card-3d-wrap mx-auto">
+                <div class="card-3d-wrapper">
+                  <div class="card-front">
+                    <div class="center-wrap">
+                      <div class="section text-center">
+                        <h4 class="mb-4 pb-3">Log In</h4>
+                        <div class="form-group">
+                          <input
+                            type="email"
+                            class="form-style"
+                            id="email-login"
+                            placeholder="Email"
+                          />
+                          <i class="input-icon uil uil-at"></i>
+                        </div>
+                        <div class="form-group mt-2">
+                          <input
+                            type="password"
+                            class="form-style"
+                            id="password-login"
+                            placeholder="Password"
+                          />
+                          <i class="input-icon uil uil-lock-alt"></i>
+                        </div>
+                        <button class="btn mt-4" id="login-btn">Login</button>
+                        <br />
+                        <button class="btn mt-4 google-btn" id="google-btn">
+                          <i class="fa-brands fa-google"></i>
+                          Login with Google
+                        </button>
+                        <p class="mb-0 mt-4 text-center">
+                          <a href="" class="link">Forgot your password?</a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-back">
+                    <div class="center-wrap">
+                      <div class="section text-center">
+                        <h4 class="mb-3 pb-3">Sign Up</h4>
+                        <div class="form-group">
+                          <input
+                            type="email"
+                            class="form-style"
+                            id="email-register"
+                            placeholder="Email"
+                          />
+                          <i class="input-icon uil uil-at"></i>
+                        </div>
+                        <div class="form-group mt-2">
+                          <input
+                            type="password"
+                            class="form-style"
+                            id="password-register"
+                            placeholder="Password"
+                          />
+                          <i class="input-icon uil uil-lock-alt"></i>
+                        </div>
+                        <div class="form-group mt-2">
+                          <input
+                            type="password"
+                            class="form-style"
+                            id="confirm-register"
+                            placeholder="Password confirm"
+                          />
+                          <i class="input-icon uil uil-lock-alt"></i>
+                        </div>
+                        <button class="btn mt-4" id="register-btn">
+                          Register
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./script/login_register.js"></script>
+  </body>
+</html>
