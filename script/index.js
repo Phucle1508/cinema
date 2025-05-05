@@ -81,6 +81,61 @@ const fetchTrending = async (timeWindow) => {
   }
 };
 
+// Fetch popular movie
+const fetchPopular = async () => {
+  let url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`;
+  try {
+    let resp = await fetch(url);
+    if (!resp.ok) {
+      throw new Error("Network was not ok", resp.status);
+    }
+
+    let data = await resp.json();
+    // console.log(data.results);
+    return data.results;
+  } catch (e) {
+    console.log("Error", e);
+  }
+};
+
+// Hiển thị trend movie
+const displayTrendingMovie = (movies) => {
+  const movieTrend = document.getElementById("trend-movie");
+  movieTrend.innerHTML = "";
+
+  movieTrend.innerHTML = movies
+    .map((movie) => {
+      return `
+      <a href="info.html?id=${movie.id}" class="swiper-slide">
+        <img src="https://image.tmdb.org/t/p/w200/${movie.poster_path}" alt="${movie.title}" />
+        <p>${movie.title}</p>
+      </a>
+    `;
+    })
+    .join("");
+};
+
+// Hiển thị popular movie
+const displayPopularMovie = (movies) => {
+  const popularMovie = document.getElementById("popular-movie");
+  popularMovie.innerHTML = "";
+
+  popularMovie.innerHTML = movies
+    .map((item) => {
+      return `
+      <a href="info.html?id=${item.id}" class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w200/${item.poster_path}" alt="${item.title}" />
+        <p>${item.title}</p>
+      </a>
+    `;
+    })
+    .join("");
+};
+
+fetchTrending("day").then(displayTrendingMovie);
+
+fetchPopular().then(displayPopularMovie);
+
 // CAROUSEL CINEMA
 async function initializeCarousel() {
   try {
@@ -204,3 +259,15 @@ async function initializeCarousel() {
 }
 
 initializeCarousel();
+const swiper = new Swiper(".swiper", {
+  SpaceBetween: 30,
+  autoplay: { delay: 5000, disableOnInteraction: true },
+  slidesPerView: "auto",
+  loop: true,
+  slidesPerGroupAuto: true,
+
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
