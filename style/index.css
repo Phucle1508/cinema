@@ -170,6 +170,98 @@ a {
   display: block;
 }
 
+/* CAROUSEL */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.hero-slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5);
+}
+
+.hero-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 10%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-poster {
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.hero-poster:hover {
+  transform: scale(1.05);
+}
+
+.hero-info {
+  color: white;
+  max-width: 600px;
+}
+
+.hero-info h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-info p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #e50914;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.btn:hover {
+  background-color: #424242;
+  transform: scale(1.05);
+}
+
 /* FOOTER */
 .footer {
   display: flex;
@@ -252,7 +344,59 @@ a {
     display: flex;
   }
 
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem 5%;
+    gap: 1rem;
+  }
+
+  .hero-poster {
+    width: 200px;
+  }
+
+  .hero-info h1 {
+    font-size: 2rem;
+  }
+
+  .hero-info p {
+    font-size: 1rem;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
   .footer {
     flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero-poster {
+    width: 150px;
+  }
+
+  .hero-info h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
   }
 }
