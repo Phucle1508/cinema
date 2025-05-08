@@ -1,67 +1,4 @@
 import { API_KEY } from "./config.js";
-import {
-  signOut,
-  onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import { auth } from "./config.js";
-
-// Để cho menu-toggle hoạt động khi click vào
-document.querySelector(".menu-toggle").addEventListener("click", () => {
-  const navContainer = document.querySelector(".nav-container");
-  navContainer.classList.toggle("active");
-});
-
-// Kiểm tra xem người dùng đã đăng nhập chưa
-function renderHeader() {
-  const authSection = document.querySelector("#authSection");
-  authSection.innerHTML = ``;
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      authSection.innerHTML += `
-                <a href='./login_register.html'">Đăng nhập</a>
-            `;
-    } else if (user.email == "admin@gmail.com") {
-      const avatarURL = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(
-        user.email || "Guest"
-      )}`;
-      authSection.innerHTML += `
-                <a id="test" href="./manage.html">Quản lý</a>
-                <div class="user-info">
-                  <img src="${avatarURL}" alt="avatar" class="user-avatar"/>
-                  <p>${user.email}</p>
-                  <button class="action-button" id="btn">Đăng xuất</button>
-                </div>`;
-    } else {
-      const avatarURL = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(
-        user.email || "Guest"
-      )}`;
-      authSection.innerHTML += `
-                <a href="./search.html"><i class="fa-solid fa-magnifying-glass"></i></a>
-                <a href="#"><i class="fa-regular fa-heart"></i></a>
-                <div class="user-info">
-                  <img src="${avatarURL}" alt="avatar" class="user-avatar"/>
-                  <p>${user.email}</p>
-                  <button class="action-button" id="btn">Đăng xuất</button>
-                </div>`;
-    }
-
-    // Xử lý đăng xuất
-    const btn = document.getElementById("btn");
-    if (btn) {
-      btn.addEventListener("click", async () => {
-        try {
-          await signOut(auth);
-          alert("Đăng xuất thành công");
-          window.location.reload();
-        } catch (error) {
-          console.error("Error signOut user:", errorCode, errorMessage);
-          alert("Error signOut user: " + errorMessage);
-        }
-      });
-    }
-  });
-}
-renderHeader();
 
 // Fetch trend movie
 const fetchTrending = async (timeWindow) => {
@@ -106,7 +43,7 @@ const displayTrendingMovie = (movies) => {
   movieTrend.innerHTML = movies
     .map((movie) => {
       return `
-      <a href="info.html?id=${movie.id}" class="swiper-slide">
+      <a href="./info.html?id=${movie.id}" class="swiper-slide">
         <img src="https://image.tmdb.org/t/p/w200/${movie.poster_path}" alt="${movie.title}" />
         <p>${movie.title}</p>
       </a>
@@ -123,7 +60,7 @@ const displayPopularMovie = (movies) => {
   popularMovie.innerHTML = movies
     .map((item) => {
       return `
-      <a href="info.html?id=${item.id}" class="movie-card">
+      <a href="./info.html?id=${item.id}" class="movie-card">
         <img src="https://image.tmdb.org/t/p/w200/${item.poster_path}" alt="${item.title}" />
         <p>${item.title}</p>
       </a>
@@ -174,7 +111,7 @@ async function initializeCarousel() {
                   <i class="fas fa-play"></i>
                   <span>Xem ngay</span>
                 </a>
-                <a href="#" class="btn btn-secondary">
+                <a href="./info.html?id=${movie.id}" class="btn btn-secondary">
                   <i class="fas fa-info-circle"></i>
                   <span>Xem thông tin</span>
                 </a>
@@ -208,7 +145,7 @@ async function initializeCarousel() {
                   <i class="fas fa-play"></i>
                   <span>Xem ngay</span>
                 </a>
-                <a href="#" class="btn btn-secondary">
+                <a href="./info.html?id=${movie.id}" class="btn btn-secondary">
                   <i class="fas fa-info-circle"></i>
                   <span>Xem thông tin</span>
                 </a>
@@ -242,7 +179,7 @@ async function initializeCarousel() {
                   <i class="fas fa-play"></i>
                   <span>Xem ngay</span>
                 </a>
-                <a href="#" class="btn btn-secondary">
+                <a href="./info.html?id=${movie.id}" class="btn btn-secondary">
                   <i class="fas fa-info-circle"></i>
                   <span>Xem thông tin</span>
                 </a>

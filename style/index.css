@@ -61,7 +61,9 @@ a {
 
 .nav-links {
   display: flex;
+  margin: 10px 0 0 0;
   list-style: none;
+  padding: 0;
 }
 
 .nav-links > li {
@@ -116,7 +118,7 @@ a {
   color: #fff;
   text-decoration: none;
   margin-left: 15px;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .icons a:hover {
@@ -149,6 +151,7 @@ a {
   margin: 0;
   position: relative;
   cursor: pointer;
+  font-size: 18px;
 }
 
 .user-info button {
@@ -160,6 +163,8 @@ a {
   top: 100%;
   left: 40%;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .user-info button:hover {
