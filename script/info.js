@@ -59,9 +59,12 @@ const displayMovieDetails = async (movie) => {
   document.getElementById("movie-title").innerText = movie.title;
   document.getElementById("movie-description").innerText = movie.overview;
   document.getElementById(
+    "movie-release-date"
+  ).innerText += ` ${movie.release_date}`;
+  document.getElementById(
     "watch-trailer-btn"
   ).href = `https://www.youtube.com/results?search_query=${movie.title}+trailer`;
-  document.getElementById("watch-now-btn").href = ``;
+  document.getElementById("watch-now-btn").href = `./watch.html?id=${movie.id}`;
 };
 
 // Hàm hiển thị danh sách diễn viên
@@ -129,6 +132,10 @@ const handleCommentSubmit = function (event) {
   }
 };
 
+let commentsPerPage = 5;
+let currentPage = 1;
+let allComments = [];
+
 // Hàm lấy dữ liệu
 const fetchComments = async () => {
   try {
@@ -138,12 +145,13 @@ const fetchComments = async () => {
     );
 
     const onsnapshot = onSnapshot(q, (querySnapshot) => {
-      const comments = [];
+      allComments = [];
       querySnapshot.forEach((doc) => {
-        comments.push(doc.data());
+        allComments.push(doc.data());
       });
 
-      displayComments(comments);
+      displayComments(allComments.slice(0, commentsPerPage));
+      updateLoadMoreButton();
     });
   } catch (e) {
     console.error("Error: ", e);
@@ -154,6 +162,11 @@ const fetchComments = async () => {
 const displayComments = function (comments) {
   const commentContainer = document.getElementById("comments");
   commentContainer.innerHTML = "";
+
+  if (!comments || comments.length === 0) {
+    commentContainer.innerHTML = "<p>Chưa có bình luận nào.</p>";
+    return;
+  }
 
   commentContainer.innerHTML = comments
     .map((cmt) => {
@@ -172,6 +185,24 @@ const displayComments = function (comments) {
     })
     .join("");
 };
+
+// Hàm để cập nhật trạng thái nút Load more
+const updateLoadMoreButton = () => {
+  const loadMoreBtn = document.getElementById("load-more-btn");
+  if (currentPage * commentsPerPage >= allComments.length) {
+    loadMoreBtn.classList.add("hidden");
+  } else {
+    loadMoreBtn.classList.remove("hidden");
+  }
+};
+
+// Event listener cho nút Load more
+document.getElementById("load-more-btn").addEventListener("click", () => {
+  currentPage++;
+  const endIndex = currentPage * commentsPerPage;
+  displayComments(allComments.slice(0, endIndex)); // Luôn lấy từ đầu đến vị trí mới
+  updateLoadMoreButton();
+});
 
 onAuthStateChanged(auth, (user) => {
   if (!user) {
