@@ -105,7 +105,102 @@ body {
 
 #similar {
   max-width: 1300px;
-  margin: 50px auto 0;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+#similar h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* SWIPER */
+.swiper {
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  margin: 30px auto;
+  padding: 10px 0;
+}
+
+.swiper-wrapper {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.3s ease;
+}
+
+.swiper-slide {
+  width: 200px !important;
+  margin-right: 20px !important;
+  flex: 0 0 auto;
+  width: 200px;
+  height: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #444;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.swiper-slide:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 15px 15px 0 0;
+}
+
+.swiper-slide p {
+  margin-top: 10px;
+  color: #fff;
+  text-align: center;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  transition: background 0.3s ease;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 10px;
+  color: #000;
+}
+
+/* COMMENTS */
+.cinema-comment {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+.cinema-comment h2 {
+  font-size: 28px;
+  margin: 30px 0;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.cinema-comment hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #444, transparent);
+  margin: 30px 0;
 }
 
 #comment-box-container {
@@ -177,6 +272,7 @@ body {
 }
 
 .comment-content {
+  position: relative;
   display: flex;
   width: 100%;
 }
@@ -226,4 +322,166 @@ body {
 
 .load-more-btn.hidden {
   display: none;
+}
+
+.no-more-comments {
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  color: #666;
+  font-style: italic;
+  border-top: 1px solid #eee;
+}
+
+.delete-comment {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  padding: 8px;
+  font-size: 1.2rem;
+}
+
+.comment-content:hover .delete-comment {
+  opacity: 1;
+}
+
+.delete-comment:hover {
+  color: #ff0000;
+  transform: scale(1.1);
+}
+
+/* Thêm style cho dialog xác nhận xóa */
+.confirm-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
+}
+
+.confirm-dialog p {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.confirm-dialog .buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.confirm-dialog button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.confirm-dialog .confirm-btn {
+  background: #ff4444;
+  color: white;
+}
+
+.confirm-dialog .cancel-btn {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.confirm-dialog button:hover {
+  transform: translateY(-2px);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.confirm-dialog p {
+  color: black;
+}
+
+@media screen and (max-width: 1024px) {
+  .banner-container {
+    padding: 20px 40px 0 40px;
+  }
+
+  #movie-title {
+    font-size: 32px;
+  }
+
+  #movie-description {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .banner-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 20px 0 20px;
+  }
+
+  .banner-preview-img-container {
+    width: 250px;
+  }
+
+  .banner-info-container {
+    text-align: center;
+  }
+
+  #movie-title {
+    font-size: 28px;
+  }
+
+  #movie-description {
+    font-size: 16px;
+  }
+
+  .btn_watch {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .banner-container {
+    padding: 20px 10px 0 10px;
+  }
+
+  .banner-preview-img-container {
+    width: 200px;
+  }
+
+  #movie-title {
+    font-size: 24px;
+  }
+
+  .btn_watch {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #watch-trailer-btn,
+  #watch-now-btn {
+    width: 100%;
+    margin-right: 0;
+    text-align: center;
+  }
 }

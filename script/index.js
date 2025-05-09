@@ -107,7 +107,7 @@ async function initializeCarousel() {
               <h1 id="hero-title-${index}">${movie.title || movie.name}</h1>
               <p id="hero-description-${index}">${movie.overview}</p>
               <div class="hero-buttons">
-                <a href="#" class="btn btn-primary">
+                <a href="./watch.html?id=${movie.id}" class="btn btn-primary">
                   <i class="fas fa-play"></i>
                   <span>Xem ngay</span>
                 </a>
@@ -141,7 +141,7 @@ async function initializeCarousel() {
               <h1 id="hero-title-${index}">${movie.title || movie.name}</h1>
               <p id="hero-description-${index}">${movie.overview}</p>
               <div class="hero-buttons">
-                <a href="#" class="btn btn-primary">
+                <a href="./watch.html?id=${movie.id}" class="btn btn-primary">
                   <i class="fas fa-play"></i>
                   <span>Xem ngay</span>
                 </a>
@@ -175,7 +175,7 @@ async function initializeCarousel() {
               <h1 id="hero-title-${index}">${movie.title || movie.name}</h1>
               <p id="hero-description-${index}">${movie.overview}</p>
               <div class="hero-buttons">
-                <a href="#" class="btn btn-primary">
+                <a href="./watch.html?id=${movie.id}" class="btn btn-primary">
                   <i class="fas fa-play"></i>
                   <span>Xem ngay</span>
                 </a>

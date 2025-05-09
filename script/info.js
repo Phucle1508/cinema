@@ -9,6 +9,8 @@ import {
   query,
   orderBy,
   serverTimestamp,
+  deleteDoc,
+  doc,
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -147,7 +149,10 @@ const fetchComments = async () => {
     const onsnapshot = onSnapshot(q, (querySnapshot) => {
       allComments = [];
       querySnapshot.forEach((doc) => {
-        allComments.push(doc.data());
+        allComments.push({
+          id: doc.id,
+          ...doc.data(),
+        });
       });
 
       displayComments(allComments.slice(0, commentsPerPage));
@@ -156,6 +161,46 @@ const fetchComments = async () => {
   } catch (e) {
     console.error("Error: ", e);
   }
+  updateLoadMoreButton();
+};
+
+// Hàm xóa bình luận
+const deleteComment = async (commentId) => {
+  // Tạo overlay
+  const overlay = document.createElement("div");
+  overlay.className = "overlay";
+  document.body.appendChild(overlay);
+
+  // Tạo dialog xác nhận
+  const dialog = document.createElement("div");
+  dialog.className = "confirm-dialog";
+  dialog.innerHTML = `
+      <p>Are you sure you want to delete this comment?</p>
+      <div class="buttons">
+        <button class="confirm-btn">Xóa</button>
+        <button class="cancel-btn">Hủy</button>
+      </div>
+    `;
+  document.body.appendChild(dialog);
+
+  // Xử lý sự kiện cho các nút
+  const confirmBtn = dialog.querySelector(".confirm-btn");
+  const cancelBtn = dialog.querySelector(".cancel-btn");
+
+  confirmBtn.addEventListener("click", async () => {
+    try {
+      await deleteDoc(doc(db, `movie-comment-${movieId}`, commentId));
+      document.body.removeChild(dialog);
+      document.body.removeChild(overlay);
+    } catch (error) {
+      console.error("Error deleting comment: ", error);
+    }
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    document.body.removeChild(dialog);
+    document.body.removeChild(overlay);
+  });
 };
 
 // Hàm hiển thị bình luận
@@ -164,14 +209,25 @@ const displayComments = function (comments) {
   commentContainer.innerHTML = "";
 
   if (!comments || comments.length === 0) {
-    commentContainer.innerHTML = "<p>Chưa có bình luận nào.</p>";
+    commentContainer.innerHTML = "<p>No comments yet.</p>";
     return;
   }
 
   commentContainer.innerHTML = comments
     .map((cmt) => {
+      // Chỉ hiển thị nút xóa khi người dùng đã đăng nhập và là admin hoặc chủ comment
+      const deleteButton =
+        auth.currentUser &&
+        (cmt.user.uid === auth.currentUser.uid ||
+          auth.currentUser.email === "admin@gmail.com")
+          ? `<button class="delete-comment" onclick="deleteComment('${cmt.id}')">
+    <i class="fas fa-trash"></i>
+   </button>`
+          : "";
+
       return `
       <div class="comment-content">
+      ${deleteButton}
         <img src="${cmt.user.photoURL}" alt="avatar" id="avatar-comment" />
         <div class="comment-item">
           <div class="comment-text">
@@ -184,7 +240,18 @@ const displayComments = function (comments) {
     `;
     })
     .join("");
+
+  if (allComments.length > 0 && allComments.length <= 5) {
+    commentContainer.innerHTML += `
+        <div class="no-more-comments">
+          <p>No more comments</p>
+        </div>
+      `;
+  }
 };
+
+// Thêm hàm deleteComment vào window object để có thể gọi từ onclick
+window.deleteComment = deleteComment;
 
 // Hàm để cập nhật trạng thái nút Load more
 const updateLoadMoreButton = () => {

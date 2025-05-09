@@ -15,6 +15,12 @@
       referrerpolicy="no-referrer"
     />
 
+    <!-- SWIPER -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
     <link rel="stylesheet" href="./style/index.css" />
 
     <link rel="stylesheet" href="./style/watch.css" />
@@ -53,6 +59,78 @@
       </nav>
     </header>
 
+    <main>
+      <section class="main">
+        <div class="iframe-container">
+          <iframe title="" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="movie-info">
+          <p id="movie-title"></p>
+          <p id="movie-description"></p>
+          <p id="release-date"></p>
+        </div>
+      </section>
+
+      <!-- SIMILAR -->
+      <div id="similar">
+        <h2>Similar Movie</h2>
+        <!-- Slider main container -->
+        <div class="swiper">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper" id="similar-movie">
+            <!-- Slides -->
+            <!-- <a href="#" class="swiper-slide">
+                    <img src="../image/test.jpg" alt="films1" />
+                    <p>Transformers One</p>
+                  </a> -->
+          </div>
+
+          <!-- If we need navigation buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </div>
+
+      <!-- BÌNH LUẬN -->
+      <section class="cinema-comment">
+        <hr />
+        <h2>Comment</h2>
+
+        <!-- NHẬP BÌNH LUẬN -->
+        <div id="comment-box-container">
+          <img id="avatar-comment" src="" alt="avatar" />
+          <form action="" id="comment-form">
+            <input
+              type="text"
+              placeholder="Add your comment ..."
+              id="comment-input"
+              required
+            />
+            <button type="submit">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+
+        <!-- HIỂN THỊ BÌNH LUẬN -->
+        <div id="comments">
+          <!-- <div class="comment-content">
+            <img src="" alt="avatar" id="avatar-comment" />
+            <div class="comment-item">
+              <div class="comment-text">
+                <strong>Username</strong>
+                <p>Title</p>
+              </div>
+              <p>Just now</p>
+            </div>
+          </div> -->
+        </div>
+        <div class="load-more-container">
+          <button id="load-more-btn" class="load-more-btn">Load more</button>
+        </div>
+      </section>
+    </main>
+
     <footer class="footer">
       <div class="footer-logo">
         <img src="../image/logo.png" alt="logo" />
@@ -66,6 +144,9 @@
         <a href="#"><i class="fa-brands fa-github"></i></a>
       </div>
     </footer>
+
+    <!-- SWIPER -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script type="module" src="./script/onAuthStateChanged.js"></script>
 
