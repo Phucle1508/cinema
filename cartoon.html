@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movie search</title>
+    <title>Cartoon</title>
     <link rel="icon" href="../image/logo.png" />
 
     <!-- ICONS -->
@@ -17,7 +17,7 @@
 
     <link rel="stylesheet" href="./style/index.css" />
 
-    <link rel="stylesheet" href="./style/search.css" />
+    <link rel="stylesheet" href="./style/cartoon.css" />
   </head>
   <body>
     <!-- HEADER -->
@@ -53,26 +53,16 @@
       </nav>
     </header>
 
-    <main>
-      <form action="" id="search-form">
-        <h1>Tìm kiếm bộ phim yêu thích của bạn</h1>
-        <div>
-          <input
-            type="text"
-            id="search-input"
-            placeholder="Search..."
-            autocomplete="off"
-          />
-          <button type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </div>
-      </form>
+    <section class="cartoon container">
+      <h2>Cartoon</h2>
+      <div id="cartoon">
+        <!-- <a href="#" class="movie-card">
+            <img src="../image/test.jpg" alt="film1" />
+            <p>Transformers One</p>
+          </a> -->
+      </div>
+    </section>
 
-      <div id="movies"></div>
-    </main>
-
-    <!-- FOOTER -->
     <footer class="footer">
       <div class="footer-logo">
         <img src="../image/logo.png" alt="logo" />
@@ -89,6 +79,6 @@
 
     <script type="module" src="./script/onAuthStateChanged.js"></script>
 
-    <script type="module" src="./script/search.js"></script>
+    <script type="module" src="./script/cartoon.js"></script>
   </body>
 </html>
