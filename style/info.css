@@ -418,6 +418,79 @@ body {
   color: black;
 }
 
+.edit-comment {
+  position: absolute;
+  right: 40px;
+  top: 10px;
+  background: none;
+  border: none;
+  color: #4CAF50;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  padding: 8px;
+  font-size: 1.2rem;
+}
+
+.comment-content:hover .edit-comment {
+  opacity: 1;
+}
+
+.edit-comment:hover {
+  color: #45a049;
+  transform: scale(1.1);
+}
+
+.edit-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 80%;
+  max-width: 500px;
+}
+
+.edit-dialog textarea {
+  width: 100%;
+  min-height: 100px;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.edit-dialog .buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.edit-dialog button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.edit-dialog .save-btn {
+  background: #4CAF50;
+  color: white;
+}
+
+.edit-dialog .cancel-btn {
+  background: #e0e0e0;
+  color: #333;
+}
+
 @media screen and (max-width: 1024px) {
   .banner-container {
     padding: 20px 40px 0 40px;

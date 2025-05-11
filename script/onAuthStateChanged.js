@@ -37,6 +37,7 @@ function renderHeader() {
       authSection.innerHTML += `
                 <a href="./search.html"><i class="fa-solid fa-magnifying-glass"></i></a>
                 <a href="#"><i class="fa-regular fa-heart"></i></a>
+                <a href="./history.html"><i class="fa-regular fa-clock"></i></a>
                 <div class="user-info">
                   <img src="${avatarURL}" alt="avatar" class="user-avatar"/>
                   <p>${user.email}</p>

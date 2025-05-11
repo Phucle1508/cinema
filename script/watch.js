@@ -11,6 +11,7 @@ import {
   serverTimestamp,
   deleteDoc,
   doc,
+  updateDoc,
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -31,7 +32,7 @@ const fetchMovieDetails = async () => {
   return data;
 };
 
-// Hàm hiển thị chi tiết của phim
+// Hàm hiển thị chi tiết phim
 const displayMovieDetails = async (movie) => {
   document.querySelector(
     "iframe"
@@ -170,6 +171,52 @@ const deleteComment = async (commentId) => {
   });
 };
 
+// Hàm chỉnh sửa comment
+const editComment = async (commentId, currentContent) => {
+  // Tạo overlay
+  const overlay = document.createElement("div");
+  overlay.className = "overlay";
+  document.body.appendChild(overlay);
+
+  // Tạo dialog chỉnh sửa
+  const dialog = document.createElement("div");
+  dialog.className = "edit-dialog";
+  dialog.innerHTML = `
+    <h3>Chỉnh sửa bình luận</h3>
+    <textarea id="edit-comment-input">${currentContent}</textarea>
+    <div class="buttons">
+      <button class="save-btn">Lưu</button>
+      <button class="cancel-btn">Hủy</button>
+    </div>
+  `;
+  document.body.appendChild(dialog);
+
+  const saveBtn = dialog.querySelector(".save-btn");
+  const cancelBtn = dialog.querySelector(".cancel-btn");
+  const textarea = dialog.querySelector("#edit-comment-input");
+
+  saveBtn.addEventListener("click", async () => {
+    const newContent = textarea.value.trim();
+    if (newContent) {
+      try {
+        await updateDoc(doc(db, `movie-comment-${movieId}`, commentId), {
+          title: newContent,
+          createAt: serverTimestamp(),
+        });
+        document.body.removeChild(dialog);
+        document.body.removeChild(overlay);
+      } catch (error) {
+        console.error("Error updating comment: ", error);
+      }
+    }
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    document.body.removeChild(dialog);
+    document.body.removeChild(overlay);
+  });
+};
+
 // Hàm hiển thị bình luận
 const displayComments = function (comments) {
   const commentContainer = document.getElementById("comments");
@@ -182,19 +229,24 @@ const displayComments = function (comments) {
 
   commentContainer.innerHTML = comments
     .map((cmt) => {
-      // Chỉ hiển thị nút xóa khi người dùng đã đăng nhập và là admin hoặc chủ comment
-      const deleteButton =
+      // Chỉ hiển thị nút xóa và sửa khi người dùng đã đăng nhập và là chủ comment hoặc admin
+      const isOwnerOrAdmin =
         auth.currentUser &&
         (cmt.user.uid === auth.currentUser.uid ||
-          auth.currentUser.email === "admin@gmail.com")
-          ? `<button class="delete-comment" onclick="deleteComment('${cmt.id}')">
-    <i class="fas fa-trash"></i>
-   </button>`
-          : "";
+          auth.currentUser.email === "admin@gmail.com");
+
+      const actionButtons = isOwnerOrAdmin
+        ? `<button class="edit-comment" onclick="editComment('${cmt.id}', '${cmt.title}')">
+           <i class="fas fa-edit"></i>
+         </button>
+         <button class="delete-comment" onclick="deleteComment('${cmt.id}')">
+           <i class="fas fa-trash"></i>
+         </button>`
+        : "";
 
       return `
       <div class="comment-content">
-      ${deleteButton}
+        ${actionButtons}
         <img src="${cmt.user.photoURL}" alt="avatar" id="avatar-comment" />
         <div class="comment-item">
           <div class="comment-text">
@@ -217,9 +269,6 @@ const displayComments = function (comments) {
   }
 };
 
-// Thêm hàm deleteComment vào window object để có thể gọi từ onclick
-window.deleteComment = deleteComment;
-
 // Hàm để cập nhật trạng thái nút Load more
 const updateLoadMoreButton = () => {
   const loadMoreBtn = document.getElementById("load-more-btn");
@@ -237,6 +286,20 @@ document.getElementById("load-more-btn").addEventListener("click", () => {
   displayComments(allComments.slice(0, endIndex)); // Luôn lấy từ đầu đến vị trí mới
   updateLoadMoreButton();
 });
+
+// Hàm lưu lịch sử xem phim
+const saveToHistory = async (movie) => {
+  try {
+    await addDoc(collection(db, `watch-history-${auth.currentUser.uid}`), {
+      movieId: movie.id,
+      title: movie.title || movie.name,
+      poster_path: movie.poster_path,
+      watchedAt: serverTimestamp(),
+    });
+  } catch (error) {
+    console.error("Error saving to history: ", error);
+  }
+};
 
 onAuthStateChanged(auth, (user) => {
   if (!user) {
@@ -264,10 +327,21 @@ onAuthStateChanged(auth, (user) => {
     document
       .getElementById("comment-form")
       .addEventListener("submit", handleCommentSubmit);
+
+    try {
+      fetchMovieDetails().then(saveToHistory);
+      // console.log("Đã lưu vào lịch sử thành công");
+    } catch (error) {
+      console.error("Lỗi khi lưu lịch sử:", error);
+    }
   }
 });
 
 fetchComments();
+// Thêm hàm deleteComment vào window object để có thể gọi từ onclick
+window.deleteComment = deleteComment;
+// Thêm hàm editComment vào window object để có thể gọi từ onclick
+window.editComment = editComment;
 
 const swiper = new Swiper(".swiper", {
   SpaceBetween: 30,
