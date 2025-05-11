@@ -291,7 +291,7 @@ document.getElementById("load-more-btn").addEventListener("click", () => {
 const saveToHistory = async (movie) => {
   try {
     await addDoc(collection(db, `watch-history-${auth.currentUser.uid}`), {
-      movieId: movie.id,
+      id: movie.id,
       title: movie.title || movie.name,
       poster_path: movie.poster_path,
       watchedAt: serverTimestamp(),
