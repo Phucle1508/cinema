@@ -12,6 +12,7 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  where,
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -68,6 +69,49 @@ const displayMovieDetails = async (movie) => {
     "watch-trailer-btn"
   ).href = `https://www.youtube.com/results?search_query=${movie.title}+trailer`;
   document.getElementById("watch-now-btn").href = `./watch.html?id=${movie.id}`;
+
+  const favoriteBtn = document.getElementById("favorite-btn");
+  favoriteBtn.style.display = "none";
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      document.getElementById("comment-box-container").innerHTML = `
+        <p>You need to be logged in to comment</p>
+      `;
+    } else {
+      document.getElementById("comment-box-container").innerHTML = `
+        <img id="avatar-comment" src="${`https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(
+          user.email || "Guest"
+        )}`}" alt="avatar" />
+        <form action="" id="comment-form">
+          <input
+            type="text"
+            placeholder="Add your comment ..."
+            id="comment-input"
+            required
+          />
+          <button type="submit">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+      `;
+
+      document
+        .getElementById("comment-form")
+        .addEventListener("submit", handleCommentSubmit);
+
+      favoriteBtn.style.display = "flex";
+      const isFavorited = await checkFavoriteStatus(movie.id);
+      if (isFavorited) {
+        favoriteBtn.classList.remove("active");
+        favoriteBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Yêu thích';
+      } else {
+        favoriteBtn.classList.add("active");
+        favoriteBtn.innerHTML = '<i class="fa-solid fa-heart"></i> Đã thích';
+      }
+
+      favoriteBtn.addEventListener("click", () => handleFavorite(movie));
+    }
+  });
 };
 
 // Hàm hiển thị danh sách diễn viên
@@ -319,37 +363,62 @@ document.getElementById("load-more-btn").addEventListener("click", () => {
   displayComments(allComments.slice(0, endIndex)); // Luôn lấy từ đầu đến vị trí mới
   updateLoadMoreButton();
 });
-
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    document.getElementById("comment-box-container").innerHTML = `
-      <p>You need to be logged in to comment</p>
-    `;
-  } else {
-    document.getElementById("comment-box-container").innerHTML = `
-      <img id="avatar-comment" src="${`https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(
-        user.email || "Guest"
-      )}`}" alt="avatar" />
-      <form action="" id="comment-form">
-        <input
-          type="text"
-          placeholder="Add your comment ..."
-          id="comment-input"
-          required
-        />
-        <button type="submit">
-          <i class="fa-solid fa-paper-plane"></i>
-        </button>
-      </form>
-    `;
-
-    document
-      .getElementById("comment-form")
-      .addEventListener("submit", handleCommentSubmit);
-  }
-});
-
 fetchComments();
+
+// Hàm kiểm tra phim đã được yêu thích chưa
+const checkFavoriteStatus = async (movieId) => {
+  const q = query(
+    collection(db, `favorites-${auth.currentUser.uid}`),
+    where("id", "==", movieId)
+  );
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.empty;
+};
+
+// Hàm xóa khỏi danh sách yêu thích
+const removeFavorite = async (movieId) => {
+  try {
+    const q = query(
+      collection(db, `favorites-${auth.currentUser.uid}`),
+      where("id", "==", movieId)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      deleteDoc(doc.ref);
+    });
+  } catch (error) {
+    console.error("Lỗi khi xóa yêu thích:", error);
+  }
+};
+
+// Hàm xử lý yêu thích
+const handleFavorite = async (movieData) => {
+  const favoriteBtn = document.getElementById("favorite-btn");
+  const isFavorited = await checkFavoriteStatus(movieData.id);
+
+  if (isFavorited) {
+    try {
+      await addDoc(collection(db, `favorites-${auth.currentUser.uid}`), {
+        id: movieData.id,
+        title: movieData.title,
+        poster_path: movieData.poster_path,
+      });
+      favoriteBtn.classList.add("active");
+      favoriteBtn.innerHTML = '<i class="fa-solid fa-heart"></i> Đã thích';
+    } catch (error) {
+      console.error("Error adding favorite:", error);
+    }
+  } else {
+    try {
+      await removeFavorite(movieData.id);
+      favoriteBtn.classList.remove("active");
+      favoriteBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Yêu thích';
+    } catch (error) {
+      console.error("Error removing favorite:", error);
+    }
+  }
+};
+
 // Thêm hàm deleteComment vào window object để có thể gọi từ onclick
 window.deleteComment = deleteComment;
 // Thêm hàm editComment vào window object để có thể gọi từ onclick
