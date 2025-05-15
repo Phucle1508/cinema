@@ -29,6 +29,7 @@ const fetchMovieDetails = async () => {
   );
 
   const data = await response.json();
+  await initializeRating(); // Khởi tạo rating system
 
   return data;
 };
@@ -100,8 +101,8 @@ const displayMovieDetails = async (movie) => {
         .addEventListener("submit", handleCommentSubmit);
 
       favoriteBtn.style.display = "flex";
-      const isFavorited = await checkFavoriteStatus(movie.id);
-      if (isFavorited) {
+      const notFavorite = await checkFavoriteStatus(movie.id);
+      if (notFavorite) {
         favoriteBtn.classList.remove("active");
         favoriteBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Yêu thích';
       } else {
@@ -394,9 +395,9 @@ const removeFavorite = async (movieId) => {
 // Hàm xử lý yêu thích
 const handleFavorite = async (movieData) => {
   const favoriteBtn = document.getElementById("favorite-btn");
-  const isFavorited = await checkFavoriteStatus(movieData.id);
+  const notFavorite = await checkFavoriteStatus(movieData.id);
 
-  if (isFavorited) {
+  if (notFavorite) {
     try {
       await addDoc(collection(db, `favorites-${auth.currentUser.uid}`), {
         id: movieData.id,
@@ -417,6 +418,179 @@ const handleFavorite = async (movieData) => {
       console.error("Error removing favorite:", error);
     }
   }
+};
+
+// Hàm xử lý rating
+const initializeRating = async () => {
+  const stars = document.querySelectorAll(".stars i"); // Lấy tất cả các ngôi sao trong container
+  const ratingValue = document.getElementById("rating-value");
+  const ratingCount = document.getElementById("rating-count");
+  const removeRatingBtn = document.getElementById("remove-rating");
+  let userRating = 0; // Lưu giá trị đánh giá của người dùng hiện tại
+
+  // Lấy rating hiện tại từ Firestore
+  const fetchRatings = async () => {
+    // Lắng nghe thay đổi realtime
+    try {
+      const q = query(collection(db, `movie-ratings-${movieId}`)); // Truy vấn collection đánh giá của phim
+      onSnapshot(q, (querySnapshot) => {
+        // Lắng nghe thay đổi realtime
+        let totalRating = 0;
+        let count = querySnapshot.size; // Số lượng đánh giá
+
+        querySnapshot.forEach((doc) => {
+          totalRating += doc.data().rating;
+        });
+
+        const averageRating = count > 0 ? (totalRating / count).toFixed(1) : 0;
+        // count > 0 ? : Đây là toán tử điều kiện (ternary operator), kiểm tra xem có đánh giá nào không (count lớn hơn 0)
+        // Nếu có đánh giá (count > 0): - totalRating / count : Lấy tổng số điểm chia cho số lượt đánh giá để tính trung bình
+        // - .toFixed(1) : Làm tròn kết quả đến 1 chữ số thập phân
+        // Ví dụ:
+        // - Tổng điểm = 27, số lượt = 6
+        // - 27/6 = 4.5 (giữ nguyên vì đã có 1 chữ số thập phân)
+        ratingValue.textContent = averageRating;
+        ratingCount.textContent = count;
+
+        // Kiểm tra xem user đã rate chưa
+        if (auth.currentUser) {
+          const userRatingQuery = query(
+            collection(db, `movie-ratings-${movieId}`),
+            where("userId", "==", auth.currentUser.uid)
+          );
+          getDocs(userRatingQuery).then((snapshot) => {
+            if (!snapshot.empty) {
+              userRating = snapshot.docs[0].data().rating; // Lấy giá trị rating từ document đầu tiên
+              updateStars(userRating);
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching ratings:", error);
+    }
+  };
+
+  // Cập nhật hiển thị sao
+  const updateStars = (rating) => {
+    stars.forEach((star, index) => {
+      star.classList.toggle("active", index < rating);
+      // - star : Từng phần tử sao
+      // - index : Vị trí của sao (0-4)
+      // classList.toggle() : Phương thức để thêm/xóa class
+      //   - Tham số 1: Tên class ('active')
+      //   - Tham số 2: Điều kiện boolean (index < rating)
+      //   - true : Thêm class 'active'
+      //   - false : Xóa class 'active'
+      // Ví dụ cách hoạt động:
+      //   - Khi rating = 3:
+      //     - Sao thứ 1 (index = 0): 0 < 3 -> true -> thêm class 'active'
+      //     - Sao thứ 2 (index = 1): 1 < 3 -> true -> thêm class 'active'
+      //     - Sao thứ 3 (index = 2): 2 < 3 -> true -> thêm class 'active'
+      //     - Sao thứ 4 (index = 3): 3 < 3 -> false -> xóa class 'active'
+      //     - Sao thứ 5 (index = 4): 4 < 3 -> false -> xóa class 'active'
+      //   Kết quả: 3 sao đầu tiên sẽ sáng (có class 'active'), 2 sao còn lại sẽ tối (không có class 'active')
+    });
+
+    // Hiển thị/ẩn nút xóa đánh giá
+    removeRatingBtn.style.display = rating > 0 ? "inline-block" : "none";
+    // 1. removeRatingBtn.style.display : Đây là cách để điều khiển thuộc tính hiển thị của nút xóa đánh giá
+    // 2. rating > 0 ? 'inline-block' : 'none' : Đây là toán tử ba ngôi, hoạt động như sau:
+    //   - rating > 0 : Điều kiện kiểm tra xem rating có lớn hơn 0 không
+    //   - ? : Nếu điều kiện đúng (true)
+    //   - 'inline-block' : Giá trị sẽ được gán nếu điều kiện đúng
+    //   - : : Ngược lại (else)
+    //   - 'none' : Giá trị sẽ được gán nếu điều kiện sai
+    //   Ví dụ cách hoạt động:
+    //     - Khi rating = 3 :
+    //       - rating > 0 là true
+    //       - Nút sẽ được hiển thị ( display: inline-block )
+    //     - Khi rating = 0 :
+    //       - rating > 0 là false
+    //       - Nút sẽ bị ẩn ( display: none )
+  };
+
+  // Xử lý sự kiện click sao
+  stars.forEach((star) => {
+    star.addEventListener("click", async () => {
+      if (!auth.currentUser) {
+        alert("Vui lòng đăng nhập để đánh giá phim!");
+        return;
+      }
+
+      const rating = parseInt(star.dataset.rating); // Lấy giá trị đánh giá từ data-rating
+
+      try {
+        // Kiểm tra xem user đã rate chưa
+        const q = query(
+          collection(db, `movie-ratings-${movieId}`),
+          where("userId", "==", auth.currentUser.uid)
+        );
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          // Thêm rating mới
+          await addDoc(collection(db, `movie-ratings-${movieId}`), {
+            userId: auth.currentUser.uid,
+            rating: rating,
+            createdAt: serverTimestamp(),
+          });
+        } else {
+          // Cập nhật rating cũ
+          const docRef = doc(
+            db,
+            `movie-ratings-${movieId}`,
+            querySnapshot.docs[0].id
+          );
+          await updateDoc(docRef, {
+            rating: rating,
+            updatedAt: serverTimestamp(),
+          });
+        }
+
+        userRating = rating;
+        updateStars(rating);
+      } catch (error) {
+        console.error("Error updating rating:", error);
+      }
+    });
+
+    // Hiệu ứng hover
+    star.addEventListener("mouseover", () => {
+      const rating = parseInt(star.dataset.rating);
+      updateStars(rating);
+    });
+
+    star.addEventListener("mouseout", () => {
+      updateStars(userRating);
+    });
+  });
+
+  // Xử lý sự kiện cho nút xóa đánh giá
+  removeRatingBtn.addEventListener("click", async () => {
+    if (confirm("Bạn có chắc muốn xóa đánh giá của mình?")) {
+      try {
+        const q = query(
+          collection(db, `movie-ratings-${movieId}`),
+          where("userId", "==", auth.currentUser.uid)
+        );
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          await deleteDoc(
+            doc(db, `movie-ratings-${movieId}`, querySnapshot.docs[0].id)
+          );
+          userRating = 0;
+          updateStars(0);
+        }
+      } catch (error) {
+        console.error("Error removing rating:", error);
+        alert("Có lỗi xảy ra khi xóa đánh giá!");
+      }
+    }
+  });
+
+  await fetchRatings();
 };
 
 // Thêm hàm deleteComment vào window object để có thể gọi từ onclick

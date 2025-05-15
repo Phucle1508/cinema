@@ -70,6 +70,27 @@
           <h1 id="movie-title">Movie Title</h1>
           <p id="movie-description">Movie description goes here.</p>
           <p id="movie-release-date">Release date:</p>
+          <div class="rating-container" id="rating-container">
+            <div class="stars">
+              <i class="fas fa-star" data-rating="1"></i>
+              <i class="fas fa-star" data-rating="2"></i>
+              <i class="fas fa-star" data-rating="3"></i>
+              <i class="fas fa-star" data-rating="4"></i>
+              <i class="fas fa-star" data-rating="5"></i>
+              <button
+                id="remove-rating"
+                class="remove-rating"
+                style="display: none"
+              >
+                <i class="fas fa-times"></i> Xóa đánh giá
+              </button>
+            </div>
+            <p class="rating-text">
+              Đánh giá: <span id="rating-value">0</span>/5
+              <i class="fas fa-star star"></i> (<span id="rating-count">0</span>
+              lượt)
+            </p>
+          </div>
           <div class="btn_watch" id="btn_watch">
             <a
               href="#"
