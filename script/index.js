@@ -1,4 +1,9 @@
 import { API_KEY } from "./config.js";
+import { db } from "./config.js";
+import {
+  collection,
+  getDocs,
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 // Fetch trend movie
 const fetchTrending = async (timeWindow) => {
@@ -32,6 +37,21 @@ const fetchPopular = async () => {
     return data.results;
   } catch (e) {
     console.log("Error", e);
+  }
+};
+
+// Fetch movies coming soon from Firebase
+const fetchMoviesComingSoon = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "movies-coming-soon"));
+    const movies = [];
+    querySnapshot.forEach((doc) => {
+      movies.push(doc.data());
+    });
+    return movies;
+  } catch (error) {
+    console.error("Lỗi khi tải danh sách phim sắp chiếu:", error);
+    return [];
   }
 };
 
@@ -69,9 +89,37 @@ const displayPopularMovie = (movies) => {
     .join("");
 };
 
+// Hiển thị phim sắp chiếu
+const displayMoviesComingSoon = (movies) => {
+  const movieComingSoon = document.getElementById("movies-coming-soon");
+  movieComingSoon.innerHTML = "";
+
+  if (movies.length === 0) {
+    movieComingSoon.innerHTML = `
+      <div class="no-movies">
+        <h3>Chưa có phim sắp chiếu</h3>
+      </div>
+    `;
+    return;
+  }
+
+  movieComingSoon.innerHTML = movies
+    .map((movie) => {
+      return `
+      <a href="./info_movie_coming_soon.html?title=${movie.title}" class="movie-card">
+        <img src="${movie.poster_path}" alt="${movie.title}" />
+        <p>${movie.title}</p>
+      </a>
+    `;
+    })
+    .join("");
+};
+
 fetchTrending("day").then(displayTrendingMovie);
 
 fetchPopular().then(displayPopularMovie);
+
+fetchMoviesComingSoon().then(displayMoviesComingSoon);
 
 // CAROUSEL CINEMA
 async function initializeCarousel() {

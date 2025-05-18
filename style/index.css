@@ -335,17 +335,38 @@ a {
 
 /* POPULAR MOVIE */
 #popular-movie {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
   padding: 20px;
 }
 
+/* MOVIEs COMING SOON */
+#movies-coming-soon {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+#movies-coming-soon .no-movies {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+#movies-coming-soon .no-movies h3 {
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+/* POPULAR MOVIE */
+/* MOVIES COMING SOON */
 .movie-card {
-  flex: 1 0 200px;
-  /* flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: 200px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -354,6 +375,7 @@ a {
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
 }
 
 .movie-card:hover {
@@ -361,14 +383,18 @@ a {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
-.movie-card > img {
+.movie-card img {
   width: 100%;
+  height: 300px;
+  object-fit: cover;
 }
 
-.movie-card > p {
-  margin-top: 10px;
+.movie-card p {
+  margin: 10px;
   color: #fff;
   text-align: center;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 /* FOOTER */
@@ -401,6 +427,17 @@ a {
 }
 
 /* Responesive Style */
+@media screen and (max-width: 1024px) {
+  #popular-movie,
+  #movies-coming-soon {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  .movie-card img {
+    height: 250px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .logo {
     width: 50%;
@@ -485,6 +522,25 @@ a {
     font-size: 0.9rem;
   }
 
+  #popular-movie,
+  #movies-coming-soon {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .movie-card img {
+    height: 200px;
+  }
+
+  .movie-card p {
+    font-size: 14px;
+  }
+
+  #movies-coming-soon .no-movies h3 {
+    font-size: 25px;
+  }
+
   .footer {
     flex-direction: column;
   }
@@ -507,5 +563,29 @@ a {
   .btn {
     width: 100%;
     justify-content: center;
+  }
+
+  #popular-movie,
+  #movies-coming-soon {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .movie-card img {
+    height: 180px;
+  }
+
+  .movie-card p {
+    font-size: 12px;
+    margin: 8px;
+  }
+
+  #movies-comming-soon .no-movies {
+    padding: 15px;
+  }
+
+  #movies-comming-soon .no-movies h3 {
+    font-size: 20px;
   }
 }

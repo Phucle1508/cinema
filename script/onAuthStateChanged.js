@@ -24,7 +24,7 @@ function renderHeader() {
         user.email || "Guest"
       )}`;
       authSection.innerHTML += `
-                <a id="test" href="./manage.html">Quản lý</a>
+                <a href="./manage_movie.html">Quản lý</a>
                 <div class="user-info">
                   <img src="${avatarURL}" alt="avatar" class="user-avatar"/>
                   <p>${user.email}</p>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin-Manage Moives</title>
+    <link rel="icon" href="../image/logo.png" />
+
+    <!-- ICONS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="./style/manage_movie.css" />
+  </head>
+  <body>
+    <div class="admin-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="logo">
+          <img src="../image/logo.png" alt="logo" />
+          <span>Cinema Admin</span>
+        </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="./index.html">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+              </a>
+            </li>
+            <li class="active">
+              <a href="./movies.html">
+                <i class="fas fa-film"></i>
+                <span>Quản lý phim</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <header class="admin-header">
+          <h1>Quản lý Phim</h1>
+        </header>
+
+        <!-- Form thêm phim -->
+        <div class="add-movie-form">
+          <h2>Thêm phim mới</h2>
+          <form id="movieForm">
+            <div class="form-group">
+              <label for="movieTitle">Tên phim</label>
+              <input type="text" id="movieTitle" required />
+            </div>
+
+            <div class="form-group">
+              <label for="movieDescription">Mô tả</label>
+              <textarea id="movieDescription" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="releaseDate">Ngày khởi chiếu</label>
+              <input type="date" id="releaseDate" required />
+            </div>
+
+            <div class="form-group">
+              <label for="movieImage">Link Hình ảnh</label>
+              <input type="text" id="movieImage" required />
+            </div>
+
+            <div class="form-buttons">
+              <button type="submit" class="save-btn">Lưu</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Bảng danh sách phim -->
+        <div class="movies-table">
+          <h2>Danh sách phim</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Hình ảnh</th>
+                <th>Tên phim</th>
+                <th>Mô tả</th>
+                <th>Ngày khởi chiếu</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="movies-list">
+              <!-- Danh sách phim sẽ được thêm vào đây bằng JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./script/manage_movie.js"></script>
+  </body>
+</html>
