@@ -150,17 +150,15 @@ body {
 }
 
 /* Form Styles */
-.add-movie-form {
+.add-service-form {
   background: white;
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
-  transform: translateY(0);
-  transition: all 0.3s ease;
 }
 
-.add-movie-form h2 {
+.add-service-form h2 {
   color: #2c3e50;
   margin-bottom: 25px;
   font-size: 1.8rem;
@@ -168,7 +166,7 @@ body {
   padding-left: 15px;
 }
 
-.add-movie-form h2::before {
+.add-service-form h2::before {
   content: "";
   position: absolute;
   left: 0;
@@ -279,7 +277,7 @@ body {
 }
 
 /* Table Styles */
-.movies-table {
+.services-table {
   background: white;
   padding: 30px;
   border-radius: 15px;
@@ -288,7 +286,7 @@ body {
   transition: all 0.3s ease;
 }
 
-.movies-table h2 {
+.services-table h2 {
   color: #2c3e50;
   margin-bottom: 25px;
   font-size: 1.8rem;
@@ -296,7 +294,7 @@ body {
   padding-left: 15px;
 }
 
-.movies-table h2::before {
+.services-table h2::before {
   content: "";
   position: absolute;
   left: 0;
@@ -378,7 +376,6 @@ table td:last-child {
   background: inherit;
   white-space: nowrap;
   min-width: 160px;
-  text-align: center;
 }
 
 @media screen and (max-width: 1200px) {
@@ -410,8 +407,8 @@ table td:last-child {
     font-size: 1.8rem;
   }
 
-  .add-movie-form,
-  .movies-table {
+  .add-service-form,
+  .services-table {
     padding: 20px;
   }
 }
@@ -469,8 +466,8 @@ table td:last-child {
     font-size: 1.5rem;
   }
 
-  .add-movie-form h2,
-  .movies-table h2 {
+  .add-service-form h2,
+  .services-table h2 {
     font-size: 1.4rem;
   }
 

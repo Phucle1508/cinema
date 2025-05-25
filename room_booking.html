@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin-Room Booking</title>
+    <link rel="icon" href="../image/logo.png" />
+
+    <!-- ICONS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="./style/room_booking.css" />
+  </head>
+  <body>
+    <div class="admin-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="logo">
+          <img src="../image/logo.png" alt="logo" />
+          <span>Cinema Admin</span>
+        </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="./index.html">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+              </a>
+            </li>
+            <li>
+              <a href="./manage_movie.html">
+                <i class="fas fa-film"></i>
+                <span>Quản lý phim</span>
+              </a>
+            </li>
+            <li>
+              <a href="./room_services.html">
+                <i class="fas fa-concierge-bell"></i>
+                <span>Quản lý dịch vụ phòng</span>
+              </a>
+            </li>
+            <li class="active">
+              <a href="./room_booking.html">
+                <i class="fas fa-calendar-check"></i>
+                <span>Quản lý đặt phòng</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="header">
+          <h1>Thống kê đơn đặt phòng</h1>
+        </div>
+
+        <div class="booking-stats">
+          <div class="stat-card">
+            <h3>Tổng số đơn</h3>
+            <p id="totalBookings">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Đơn chờ duyệt</h3>
+            <p id="pendingBookings">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Đơn đã duyệt</h3>
+            <p id="approvedBookings">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Đơn đã hoàn thành</h3>
+            <p id="doneBookings">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Đơn đã hủy</h3>
+            <p id="cancelledBookings">0</p>
+          </div>
+        </div>
+
+        <div class="booking-table">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Người đặt</th>
+                  <th>Phòng</th>
+                  <th>Ngày đặt</th>
+                  <th>Giờ</th>
+                  <th>Thời lượng</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="bookingTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./script/room_booking.js"></script>
+  </body>
+</html>

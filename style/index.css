@@ -397,6 +397,222 @@ a {
   font-weight: bold;
 }
 
+/* ROOM SERVICES */
+.room-services {
+  padding: 1rem 0;
+  background: #000;
+}
+
+.room-services h2 {
+  font-size: 2rem;
+  color: #fff;
+  margin: 0 2rem 0 2rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.room-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.room-card {
+  background: #111;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.room-card img {
+  width: 90%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.room-info {
+  width: 100%;
+  text-align: center;
+}
+
+.room-info h3 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.room-info p {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.room-price {
+  font-size: 1.3rem;
+  color: #00aaff;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.book-btn {
+  width: 90%;
+  padding: 0.8rem;
+  background: linear-gradient(45deg, #007bff, #00aaff);
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.book-btn:hover {
+  background: linear-gradient(45deg, #00aaff, #007bff);
+  transform: scale(1.05);
+}
+
+.no-services {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  background: linear-gradient(145deg, #1a1a1a, #111);
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  margin: 1rem;
+}
+
+.no-services h3 {
+  color: #00aaff;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.no-services p {
+  color: #ccc;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Booking Modal */
+.booking-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: linear-gradient(145deg, #1a1a1a, #111);
+  padding: 2rem;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+  color: #00aaff;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background-color: #222;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #00aaff;
+  box-shadow: 0 0 5px rgba(0, 170, 255, 0.3);
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.submit-btn,
+.close-btn {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn {
+  background: linear-gradient(45deg, #007bff, #00aaff);
+  color: #fff;
+}
+
+.close-btn {
+  background: #333;
+  color: #fff;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(45deg, #00aaff, #007bff);
+  transform: scale(1.05);
+}
+
+.close-btn:hover {
+  background: #444;
+  transform: scale(1.05);
+}
+
 /* FOOTER */
 .footer {
   display: flex;
@@ -435,6 +651,43 @@ a {
 
   .movie-card img {
     height: 250px;
+  }
+
+  .room-services-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .room-card img {
+    height: 220px;
+  }
+
+  .room-info h3 {
+    font-size: 1.3rem;
+  }
+
+  .room-info p {
+    font-size: 0.9rem;
+  }
+
+  .room-price {
+    font-size: 1.2rem;
+  }
+
+  .book-btn {
+    width: 85%;
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .no-services {
+    padding: 2.5rem;
+    margin: 1.5rem;
+  }
+
+  .no-services h3 {
+    font-size: 1.8rem;
   }
 }
 
@@ -541,6 +794,67 @@ a {
     font-size: 25px;
   }
 
+  .room-services-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .room-card img {
+    height: 200px;
+  }
+
+  .room-info h3 {
+    font-size: 1.2rem;
+  }
+
+  .room-info p {
+    font-size: 0.85rem;
+  }
+
+  .room-price {
+    font-size: 1.1rem;
+  }
+
+  .book-btn {
+    width: 80%;
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .no-services h3 {
+    font-size: 1.5rem;
+  }
+
+  .no-services p {
+    font-size: 1rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .submit-btn,
+  .close-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
   .footer {
     flex-direction: column;
   }
@@ -587,5 +901,55 @@ a {
 
   #movies-comming-soon .no-movies h3 {
     font-size: 20px;
+  }
+
+  .room-services h2 {
+    font-size: 1.5rem;
+    margin: 0.8rem 1rem;
+  }
+
+  .room-services-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .room-card {
+    max-width: 100%;
+    padding: 0.8rem;
+  }
+
+  .room-card img {
+    height: 180px;
+  }
+
+  .room-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .room-info p {
+    font-size: 0.8rem;
+  }
+
+  .room-price {
+    font-size: 1rem;
+  }
+
+  .book-btn {
+    width: 75%;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .no-services {
+    padding: 2rem 1rem;
+  }
+
+  .no-services h3 {
+    font-size: 1.3rem;
+  }
+
+  .no-services p {
+    font-size: 0.9rem;
   }
 }

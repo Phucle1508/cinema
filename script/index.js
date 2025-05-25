@@ -1,9 +1,13 @@
 import { API_KEY } from "./config.js";
-import { db } from "./config.js";
+import { auth, db } from "./config.js";
 import {
   collection,
   getDocs,
+  addDoc,
+  getDoc,
+  doc,
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
 // Fetch trend movie
 const fetchTrending = async (timeWindow) => {
@@ -51,6 +55,21 @@ const fetchMoviesComingSoon = async () => {
     return movies;
   } catch (error) {
     console.error("Lỗi khi tải danh sách phim sắp chiếu:", error);
+    return [];
+  }
+};
+
+// Fetch room services
+const fetchRoomServices = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "services"));
+    const services = [];
+    querySnapshot.forEach((doc) => {
+      services.push({ id: doc.id, ...doc.data() });
+    });
+    return services;
+  } catch (error) {
+    console.error("Lỗi khi tải danh sách phòng:", error);
     return [];
   }
 };
@@ -115,11 +134,59 @@ const displayMoviesComingSoon = (movies) => {
     .join("");
 };
 
+// Hiển thị dịch vụ phòng
+const displayRoomServices = (services) => {
+  const roomServicesList = document.getElementById("room-services-list");
+  roomServicesList.innerHTML = "";
+
+  if (services.length === 0) {
+    roomServicesList.innerHTML = `
+      <div class="no-services">
+        <h3>Không có phòng</h3>
+      </div>
+    `;
+    return;
+  }
+
+  roomServicesList.innerHTML = services
+    .map(
+      (service) => `
+      <div class="room-card">
+        <img src="${service.image}" alt="${service.name}" />
+        <div class="room-info">
+          <h3>${service.name}</h3>
+          <p>${service.description}</p>
+          <div class="room-price">${service.price}đ/giờ</div>
+          <button class="book-btn" data-room-id="${service.id}">Đặt phòng</button>
+        </div>
+      </div>
+    `
+    )
+    .join("");
+
+  const bookButtons = document.querySelectorAll(".book-btn");
+  bookButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          alert("Vui lòng đăng nhập để đặt phòng");
+          return;
+        } else {
+          const roomId = e.target.getAttribute("data-room-id");
+          openBookingModal(roomId);
+        }
+      });
+    });
+  });
+};
+
 fetchTrending("day").then(displayTrendingMovie);
 
 fetchPopular().then(displayPopularMovie);
 
 fetchMoviesComingSoon().then(displayMoviesComingSoon);
+
+fetchRoomServices().then(displayRoomServices);
 
 // CAROUSEL CINEMA
 async function initializeCarousel() {
@@ -244,6 +311,70 @@ async function initializeCarousel() {
 }
 
 initializeCarousel();
+
+// Đặt lịch
+const modal = document.getElementById("bookingModal");
+const closeBtn = document.querySelector(".close-btn");
+const bookingForm = document.getElementById("bookingForm");
+
+function openBookingModal(roomId) {
+  modal.classList.add("active");
+  bookingForm.setAttribute("data-room-id", roomId);
+
+  // Đặt ngày tối thiểu là hôm nay
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("bookingDate").min = today;
+}
+
+closeBtn.addEventListener("click", () => {
+  modal.classList.remove("active");
+});
+
+// Đóng cửa sổ khi nhấp vào bên ngoài
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.remove("active");
+  }
+});
+
+// Xử lý việc gửi biểu mẫu
+bookingForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const roomId = bookingForm.getAttribute("data-room-id");
+  const roomDoc = await getDoc(doc(db, "services", roomId));
+  const formData = {
+    user: auth.currentUser.uid,
+    roomName: roomDoc.data().name,
+    customerName: document.getElementById("customerName").value,
+    bookingDate: document.getElementById("bookingDate").value,
+    bookingTime: document.getElementById("bookingTime").value,
+    duration: document.getElementById("duration").value,
+    notes: document.getElementById("notes").value,
+    isHidden: false,
+    status: "pending",
+    // pending: "Chờ xác nhận",
+    // approved: "Đã xác nhận",
+    // done: "Đã hoàn thành",
+    // cancelled: "Đã hủy",
+  };
+
+  try {
+    // Save to Firebase
+    const docRef = await addDoc(collection(db, "bookings"), formData);
+
+    // Show success message
+    alert("Đặt lịch thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.");
+
+    // Reset form and close modal
+    modal.classList.remove("active");
+    bookingForm.reset();
+  } catch (error) {
+    console.error("Error saving booking:", error);
+    alert("Có lỗi xảy ra khi đặt phòng. Vui lòng thử lại!");
+  }
+});
+
 const swiper = new Swiper(".swiper", {
   SpaceBetween: 30,
   autoplay: { delay: 5000, disableOnInteraction: true },

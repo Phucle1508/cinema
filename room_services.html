@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin-Manage Moives</title>
+    <title>Admin-Room Services</title>
     <link rel="icon" href="../image/logo.png" />
 
     <!-- ICONS -->
@@ -15,7 +15,7 @@
       referrerpolicy="no-referrer"
     />
 
-    <link rel="stylesheet" href="./style/manage_movie.css" />
+    <link rel="stylesheet" href="./style/room_services.css" />
   </head>
   <body>
     <div class="admin-container">
@@ -33,13 +33,13 @@
                 <span>Trang chủ</span>
               </a>
             </li>
-            <li class="active">
+            <li>
               <a href="./manage_movie.html">
                 <i class="fas fa-film"></i>
                 <span>Quản lý phim</span>
               </a>
             </li>
-            <li>
+            <li class="active">
               <a href="./room_services.html">
                 <i class="fas fa-concierge-bell"></i>
                 <span>Quản lý dịch vụ phòng</span>
@@ -58,60 +58,76 @@
       <!-- Main Content -->
       <div class="main-content">
         <header class="admin-header">
-          <h1>Quản lý Phim</h1>
+          <h1>Quản lý Phòng</h1>
         </header>
-
-        <!-- Form thêm phim -->
-        <div class="add-movie-form">
-          <h2>Thêm phim mới</h2>
-          <form id="movieForm">
+        <!-- Add New Service Section -->
+        <div class="add-service-form">
+          <h2>Thêm dịch vụ mới</h2>
+          <form id="serviceForm">
             <div class="form-group">
-              <label for="movieTitle">Tên phim</label>
-              <input type="text" id="movieTitle" required />
+              <label>Tên dịch vụ</label>
+              <input
+                type="text"
+                id="serviceName"
+                placeholder="Nhập tên dịch vụ"
+                required
+              />
             </div>
 
             <div class="form-group">
-              <label for="movieDescription">Mô tả</label>
-              <textarea id="movieDescription" required></textarea>
+              <label for="serviceDescription">Mô tả</label>
+              <textarea
+                id="serviceDescription"
+                placeholder="Nhập mô tả dịch vụ"
+                required
+              ></textarea>
             </div>
 
             <div class="form-group">
-              <label for="releaseDate">Ngày khởi chiếu</label>
-              <input type="date" id="releaseDate" required />
+              <label>Giá/Giờ</label>
+              <input
+                type="number"
+                id="servicePricePerHour"
+                placeholder="Nhập giá theo giờ"
+                required
+              />
             </div>
 
             <div class="form-group">
-              <label for="movieImage">Link Hình ảnh</label>
-              <input type="text" id="movieImage" required />
+              <label>Link Hình ảnh</label>
+              <input
+                type="text"
+                id="serviceImage"
+                placeholder="Nhập link hình ảnh"
+                required
+              />
             </div>
-
             <div class="form-buttons">
               <button type="submit" class="save-btn">Lưu</button>
             </div>
           </form>
         </div>
 
-        <!-- Bảng danh sách phim -->
-        <div class="movies-table">
-          <h2>Danh sách phim</h2>
-          <table>
+        <!-- Service List Section -->
+        <div class="services-table">
+          <h2>Danh sách dịch vụ</h2>
+          <table class="service-table">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Hình ảnh</th>
-                <th>Tên phim</th>
-                <th>Mô tả</th>
-                <th>Ngày khởi chiếu</th>
-                <th>Thao tác</th>
+                <th>Hình ảnh</th>
+                <th>Tên dịch vụ</th>
+                <th>Mô tả</th>
+                <th>Gía/Giờ</th>
+                <th>Thao tác</th>
               </tr>
             </thead>
-            <tbody id="movies-list">
-              <!-- Danh sách phim sẽ được thêm vào đây bằng JavaScript -->
+            <tbody id="services-list">
+              <!-- Service rows will be dynamically added here -->
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <script type="module" src="./script/manage_movie.js"></script>
+    <script type="module" src="./script/room_services.js"></script>
   </body>
 </html>

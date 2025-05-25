@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Booking</title>
+    <link rel="icon" href="../image/logo.png" />
+
+    <!-- ICONS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="./style/index.css" />
+
+    <link rel="stylesheet" href="./style/user_booking.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo">
+        <img src="../image/logo.png" alt="logo" />
+        Cinema
+      </div>
+      <nav class="nav">
+        <div class="nav-container">
+          <ul class="nav-links">
+            <li><a href="./index.html">Trang chủ</a></li>
+            <li><a href="./comedy.html">Phim hài</a></li>
+            <li><a href="./chinese_movie.html">Phim Trung</a></li>
+            <li><a href="./horror.html">Kinh dị</a></li>
+            <li><a href="./movies.html">Chiếu rạp</a></li>
+            <li class="dropdown">
+              <a href="#">Xem thêm <i class="fa-solid fa-caret-down"></i></a>
+              <ul class="dropdown-content">
+                <li><a href="./cartoon.html">Hoạt hình</a></li>
+                <li><a href="./sport.html">Thể thao</a></li>
+                <li><a href="./kung_fu.html">Kung fu</a></li>
+              </ul>
+            </li>
+          </ul>
+          <div class="icons" id="authSection">
+            <!-- Phần này sẽ được JavaScript điều khiển -->
+          </div>
+        </div>
+        <div class="menu-toggle">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </nav>
+    </header>
+
+    <!-- BOOKING HISTORY -->
+    <section class="booking-history">
+      <h2>Lịch sử đặt phòng</h2>
+      <div class="booking-table-container">
+        <table class="booking-table">
+          <thead>
+            <tr>
+              <th>Phòng</th>
+              <th>Ngày đặt</th>
+              <th>Giờ đặt</th>
+              <th>Thời lượng</th>
+              <th>Ghi chú</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="bookingTableBody">
+            <!-- Booking data will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+      <div id="noBookings" class="no-bookings" style="display: none">
+        <h3>Bạn chưa có đơn đặt phòng nào</h3>
+        <a href="./index.html" class="book-now-btn">Đặt phòng ngay</a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-logo">
+        <img src="../image/logo.png" alt="logo" />
+        <h5>Cinema</h5>
+      </div>
+      <div class="copyright">Copyright &copy; Phuc</div>
+      <div class="contact">
+        Contact:
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </footer>
+
+    <script type="module" src="./script/onAuthStateChanged.js"></script>
+
+    <script type="module" src="./script/user_booking.js"></script>
+  </body>
+</html>

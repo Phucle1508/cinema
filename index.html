@@ -161,6 +161,47 @@
       </div>
     </section>
 
+    <!-- ROOM SERVICES -->
+    <section class="room-services container">
+      <h2>Dịch vụ phòng phim</h2>
+      <div id="room-services-list" class="room-services-grid">
+        <!-- Room services will be dynamically added here -->
+      </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal" id="bookingModal">
+      <div class="modal-content">
+        <h2>Đặt Phòng</h2>
+        <form id="bookingForm">
+          <div class="form-group">
+            <label for="customerName">Tên người đặt:</label>
+            <input type="text" id="customerName" required />
+          </div>
+          <div class="form-group">
+            <label for="bookingDate">Ngày đặt:</label>
+            <input type="date" id="bookingDate" required />
+          </div>
+          <div class="form-group">
+            <label for="bookingTime">Giờ đặt:</label>
+            <input type="time" id="bookingTime" required />
+          </div>
+          <div class="form-group">
+            <label for="duration">Số giờ:</label>
+            <input type="number" id="duration" min="1" required />
+          </div>
+          <div class="form-group">
+            <label for="notes">Ghi chú:</label>
+            <textarea id="notes" rows="3"></textarea>
+          </div>
+          <div class="modal-buttons">
+            <button type="submit" class="submit-btn">Đặt phòng</button>
+            <button type="button" class="close-btn">Đóng</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="footer">
       <div class="footer-logo">
