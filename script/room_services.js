@@ -27,7 +27,7 @@ async function loadServices() {
     const servicesList = document.getElementById("services-list");
     servicesList.innerHTML = "";
 
-    Array.from(querySnapshot.docs).map((doc, index) => {
+    querySnapshot.forEach((doc) => {
       const service = doc.data();
       const row = document.createElement("tr");
       row.innerHTML = `

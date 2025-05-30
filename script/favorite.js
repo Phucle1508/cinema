@@ -2,7 +2,6 @@ import { auth, db } from "./config.js";
 import {
   collection,
   query,
-  getDocs,
   onSnapshot,
   deleteDoc,
   doc,

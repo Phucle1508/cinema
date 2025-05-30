@@ -1,22 +1,37 @@
+/* - em: dựa vào font-size của phần tử cha gần nhất
+- rem: luôn dựa vào font-size của phần tử html
+
+Rem (Root em) là một đơn vị đo lường trong CSS:
+
+1. Định nghĩa:
+- Rem là viết tắt của "Root em"
+- 1rem = kích thước font-size của phần tử gốc (root element, thường là thẻ <html> )
+- Mặc định, 1rem = 16px (nếu không thay đổi font-size của html)
+
+2. Đặc điểm:
+- Tất cả giá trị rem đều dựa vào font-size của phần tử html
+- Thay đổi font-size của html sẽ ảnh hưởng đến tất cả các giá trị rem trong trang
+- Giúp tạo layout linh hoạt, dễ dàng điều chỉnh kích thước toàn bộ trang */
+
 * {
-  margin: 0;
-  padding: 0;
+  margin: 0; /* Xóa khoảng cách lề mặc định của tất cả phần tử */
+  padding: 0; /* Xóa khoảng đệm mặc định của tất cả phần tử */
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* Thiết lập font chữ chính, nếu không có Arial sẽ dùng Helvetica, cuối cùng là sans-serif */
   background-color: #000;
 }
 
 section > h2 {
   font-size: 24px;
   color: #fff;
-  margin: 12px 24px;
+  margin: 12px 24px; /* Khoảng cách lề: trên-dưới 12px, trái-phải 24px */
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none; /* Bỏ gạch chân mặc định của liên kết */
   cursor: pointer;
 }
 
@@ -29,10 +44,11 @@ a {
   color: #fff;
   padding: 10px 20px;
   z-index: 999;
-  position: sticky;
+  position: sticky; /* Header sẽ dính vào đỉnh khi cuộn trang */
   top: 0;
   right: 0;
   left: 0;
+  /* top/right/left: 0 : Căn chỉnh vị trí dính */
 }
 
 .logo {
@@ -50,19 +66,19 @@ a {
 }
 
 .nav {
-  flex: 1;
+  flex: 1; /* Chiếm hết không gian còn lại trong header */
 }
 
 .nav-container {
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-around; /* Phân bố đều không gian giữa các mục */
 }
 
 .nav-links {
   display: flex;
   margin: 10px 0 0 0;
-  list-style: none;
+  list-style: none; /* Bỏ dấu chấm của danh sách */
   padding: 0;
 }
 
@@ -82,13 +98,13 @@ a {
 }
 
 .dropdown {
-  position: relative;
+  position: relative; /* Vị trí tương đối cho menu con */
 }
 
 .dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
+  display: none; /* Ẩn menu con ban đầu */
+  position: absolute; /* Vị trí tuyệt đối so với phần tử cha */
+  top: 100%; /* Hiển thị dưới menu chính */
   left: 0;
   background-color: #333;
   list-style: none;
@@ -176,27 +192,31 @@ a {
 }
 
 /* CAROUSEL */
+/* Thiết lập phần hero section chính */
 .hero-section {
   position: relative;
   width: 100%;
-  height: 80vh;
-  overflow: hidden;
+  height: 80vh; /* Chiều cao bằng 80% viewport height */
+  overflow: hidden; /* Ẩn nội dung vượt quá kích thước */
 }
 
+/* Thiết lập cho từng slide trong hero section */
 .hero-slide {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
+/* Thiết lập ảnh nền cho hero section */
 .hero-backdrop {
   position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: brightness(0.5);
+  object-fit: cover; /* Ảnh nền tự động co giãn, giữ tỷ lệ */
+  filter: brightness(0.5); /* Giảm độ sáng ảnh nền 50% */
 }
 
+/* Thiết lập phần nội dung chính của hero */
 .hero-content {
   position: relative;
   display: flex;
@@ -207,6 +227,7 @@ a {
   z-index: 1;
 }
 
+/* Thiết lập cho poster phim */
 .hero-poster {
   width: 300px;
   border-radius: 10px;
@@ -214,33 +235,39 @@ a {
   transition: transform 0.3s ease;
 }
 
+/* Hiệu ứng hover cho poster */
 .hero-poster:hover {
   transform: scale(1.05);
 }
 
+/* Thiết lập phần thông tin phim */
 .hero-info {
   color: white;
   max-width: 600px;
 }
 
+/* Thiết lập tiêu đề phim */
 .hero-info h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Thiết lập đoạn mô tả phim */
 .hero-info p {
   font-size: 1.1rem;
-  line-height: 1.6;
+  line-height: 1.6; /* Khoảng cách dòng */
   margin-bottom: 2rem;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+/* Thiết lập container cho các nút */
 .hero-buttons {
   display: flex;
   gap: 1rem;
 }
 
+/* Thiết lập chung cho các nút */
 .btn {
   padding: 0.8rem 1.5rem;
   border-radius: 5px;
@@ -271,7 +298,7 @@ a {
 .swiper {
   width: 100%;
   max-width: 1200px;
-  height: auto;
+  height: auto; /* Chiều cao tự động theo nội dung */
   margin: 30px auto;
   padding: 10px 0;
 }
@@ -283,9 +310,9 @@ a {
 }
 
 .swiper-slide {
-  width: 200px !important;
+  width: 200px !important; /* (ưu tiên cao) */
   margin-right: 20px !important;
-  flex: 0 0 auto;
+  flex: 0 0 auto; /* Không co giãn, giữ kích thước cố định */
   width: 200px;
   height: 370px;
   display: flex;
@@ -293,7 +320,7 @@ a {
   align-items: center;
   background-color: #444;
   border-radius: 15px;
-  overflow: hidden;
+  overflow: hidden; /* Ẩn nội dung vượt quá */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -306,7 +333,7 @@ a {
 .swiper-slide img {
   width: 100%;
   height: 90%;
-  object-fit: cover;
+  object-fit: cover; /* Ảnh tự động co giãn, giữ tỷ lệ */
   border-radius: 15px 15px 0 0;
 }
 
@@ -334,14 +361,34 @@ a {
 }
 
 /* POPULAR MOVIE */
+/* Thiết lập grid layout cho phần phim phổ biến */
 #popular-movie {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /* 1. repeat(auto-fill, ...) :  
+  - Tự động tạo và lặp lại các cột
+  - auto-fill sẽ tạo càng nhiều cột càng tốt dựa trên không gian có sẵn
+2. minmax(200px, 1fr) :
+  - 200px : Độ rộng tối thiểu của mỗi cột
+  - 1fr : Độ rộng tối đa, sử dụng 1 phần của không gian còn lại
+Ví dụ thực tế:
+- Khi màn hình rộng 650px:
+ - Có thể chứa 3 cột (mỗi cột ~216px)
+- Khi màn hình rộng 450px:
+ - Chứa 2 cột (mỗi cột ~225px)
+- Khi màn hình rộng 300px:
+ - Chỉ chứa 1 cột (chiều rộng 300px)
+ Ưu điểm:
+ - Tự động điều chỉnh số lượng cột
+ - Đảm bảo cột không nhỏ hơn 200px
+ - Phân bố không gian đều giữa các cột
+ - Không cần media queries  */
   gap: 20px;
   padding: 20px;
 }
 
 /* MOVIEs COMING SOON */
+/* Thiết lập grid layout cho phần phim sắp chiếu */
 #movies-coming-soon {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -349,6 +396,7 @@ a {
   padding: 20px;
 }
 
+/* Thiết lập thông báo khi không có phim sắp chiếu */
 #movies-coming-soon .no-movies {
   width: 100%;
   padding: 20px;
@@ -358,6 +406,7 @@ a {
   margin: 20px 0;
 }
 
+/* Thiết lập tiêu đề thông báo không có phim */
 #movies-coming-soon .no-movies h3 {
   color: #fff;
   font-size: 40px;
@@ -366,6 +415,7 @@ a {
 
 /* POPULAR MOVIE */
 /* MOVIES COMING SOON */
+/* Thiết lập chung cho card phim (cả phim phổ biến và sắp chiếu) */
 .movie-card {
   display: flex;
   flex-direction: column;
@@ -378,17 +428,20 @@ a {
   height: 100%;
 }
 
+/* Hiệu ứng hover cho card phim */
 .movie-card:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
+/* Thiết lập cho ảnh trong card phim */
 .movie-card img {
   width: 100%;
   height: 300px;
   object-fit: cover;
 }
 
+/* Thiết lập cho tiêu đề phim */
 .movie-card p {
   margin: 10px;
   color: #fff;
@@ -407,7 +460,7 @@ a {
   font-size: 2rem;
   color: #fff;
   margin: 0 2rem 0 2rem;
-  text-transform: uppercase;
+  text-transform: uppercase; /* Chữ in hoa */
   text-align: center;
 }
 
@@ -484,7 +537,7 @@ a {
 }
 
 .no-services {
-  grid-column: 1 / -1;
+  grid-column: 1 / -1; /* Chiếm toàn bộ chiều rộng grid */
   text-align: center;
   padding: 3rem;
   background: linear-gradient(145deg, #1a1a1a, #111);
@@ -570,7 +623,7 @@ a {
 
 .form-group input:focus,
 .form-group textarea:focus {
-  outline: none;
+  outline: none; /* Bỏ viền focus mặc định */
   border-color: #00aaff;
   box-shadow: 0 0 5px rgba(0, 170, 255, 0.3);
 }

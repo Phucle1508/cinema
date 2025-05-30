@@ -1,3 +1,4 @@
+/* Giống popular movie */
 import { API_KEY } from "./config.js";
 const fetchCartoon = async () => {
   let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=16&language=vi-VN&sort_by=popularity.desc

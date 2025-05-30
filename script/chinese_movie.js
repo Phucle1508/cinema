@@ -1,3 +1,4 @@
+/* Giống popular movie */
 import { API_KEY } from "./config.js";
 const fetchChineseMovie = async () => {
   let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_origin_country=CN&sort_by=popularity.desc

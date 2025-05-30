@@ -10,7 +10,7 @@ body {
 }
 
 .admin-container {
-  display: block; /* Thay đổi từ flex sang block */
+  display: block;
   min-height: 100vh;
   position: relative;
 }

@@ -1,3 +1,4 @@
+/* Giống popular movie */
 import { API_KEY } from "./config.js";
 const fetchHorrorMovie = async () => {
   let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=27

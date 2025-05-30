@@ -28,8 +28,8 @@ h6 span {
 }
 .section1 {
   position: relative;
-  background-size: cover; /* auto, contain, cover*/
-  background-position: center;
+  background-size: cover; /* auto, contain, cover*/ /* Ảnh nền sẽ phủ kín container */
+  background-position: center; /* Căn giữa ảnh nền */
   background-image: url("../image/1.webp");
   width: 100%;
   display: block;
@@ -54,6 +54,7 @@ h6 span {
 [type="checkbox"]:not(:checked) {
   display: none;
 }
+/* Tạo style cho label của checkbox */
 .checkbox:checked + label,
 .checkbox:not(:checked) + label {
   position: relative;
@@ -67,6 +68,7 @@ h6 span {
   cursor: pointer;
   background-color: #d0cfcd;
 }
+/* Tạo nút toggle tròn */
 .checkbox:checked + label:before,
 .checkbox:not(:checked) + label:before {
   position: absolute;

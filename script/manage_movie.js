@@ -30,9 +30,9 @@ async function loadMovies() {
     const moviesList = document.getElementById("movies-list");
     moviesList.innerHTML = "";
 
-    Array.from(querySnapshot.docs).map((doc, index) => {
+    querySnapshot.docs.map((doc, index) => {
       const movie = doc.data();
-      const row = document.createElement("tr");
+      const row = document.createElement("tr"); // Tạo một hàng mới trong bảng
       row.innerHTML = `
         <td>${index + 1}</td>
         <td><img src="${movie.poster_path}" alt="${

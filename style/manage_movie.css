@@ -33,7 +33,7 @@ body {
   align-items: center;
   padding: 0 20px;
   margin-bottom: 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Đường kẻ phân cách */ /* viền dưới */
   padding-bottom: 20px;
 }
 
@@ -41,7 +41,7 @@ body {
   width: 40px;
   height: 40px;
   margin-right: 10px;
-  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3)); /* Đổ bóng cho logo */
   transition: transform 0.3s ease;
 }
 
@@ -53,8 +53,8 @@ body {
   font-size: 20px;
   font-weight: bold;
   background: linear-gradient(45deg, #fff, #e6e6e6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text; /* Cắt background theo text */
+  -webkit-text-fill-color: transparent; /* Làm trong suốt text để hiện gradient */
 }
 
 .sidebar-nav ul {
@@ -80,19 +80,20 @@ body {
   overflow: hidden;
 }
 
+/* Hiệu ứng overlay khi hover */
 .sidebar-nav a:before {
   content: "";
   position: absolute;
   left: 0;
   top: 0;
-  width: 0;
+  width: 0; /* Chiều rộng ban đầu */
   height: 100%;
   background: rgba(255, 255, 255, 0.1);
   transition: width 0.3s ease;
 }
 
 .sidebar-nav a:hover:before {
-  width: 100%;
+  width: 100%; /* Mở rộng overlay khi hover */
 }
 
 .sidebar-nav a:hover,
@@ -121,13 +122,13 @@ body {
 
 /* Main Content Styles */
 .main-content {
-  flex: 1;
+  flex: 1; /* Chiếm hết không gian còn lại trong flex container */
   padding: 30px;
   background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
   transition: all 0.3s ease;
-  margin-left: 250px; /* Phải bằng width của sidebar */
+  margin-left: 250px; /* Phải bằng width của sidebar */ /*Margin trái bằng với width của sidebar */
   min-height: 100vh;
-  overflow-y: auto;
+  overflow-y: auto; /* Cho phép cuộn dọc */
 }
 
 .admin-header h1 {
@@ -138,6 +139,7 @@ body {
   padding-bottom: 10px;
 }
 
+/* Tạo gạch chân cho tiêu đề */
 .admin-header h1::after {
   content: "";
   position: absolute;
@@ -168,6 +170,7 @@ body {
   padding-left: 15px;
 }
 
+/* Tạo thanh dọc bên trái tiêu đề form */
 .add-movie-form h2::before {
   content: "";
   position: absolute;
@@ -195,8 +198,9 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Hiệu ứng khi focus vào input */
 .form-group:focus-within label {
-  transform: translateY(-2px);
+  transform: translateY(-2px); /* Di chuyển label lên trên */
   color: #007bff;
 }
 
@@ -211,6 +215,7 @@ body {
   background: #f8fafc;
 }
 
+/* Hiệu ứng khi focus vào input và textarea */
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: #007bff;
@@ -220,7 +225,7 @@ body {
 
 .form-group textarea {
   height: 120px;
-  resize: vertical;
+  resize: vertical; /* Cho phép kéo dãn theo chiều dọc */
 }
 
 .form-buttons {
@@ -310,8 +315,8 @@ body {
 
 table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: separate; /* Tách biệt các cell */
+  border-spacing: 0; /* Không có khoảng cách giữa các cell */
 }
 
 th,
@@ -372,11 +377,12 @@ th {
   box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
 }
 
+/* Style cho cột cuối cùng trong bảng (nút) */
 table td:last-child {
   position: relative;
   z-index: 1;
-  background: inherit;
-  white-space: nowrap;
+  background: inherit; /* Kế thừa màu nền */
+  white-space: nowrap; /* Không wrap text */
   min-width: 160px;
   text-align: center;
 }

@@ -311,6 +311,24 @@ const displayComments = function (comments) {
     })
     .join("");
 
+  //     Dòng code new Date(cmt.createAt.seconds * 1000).toLocaleString() được sử dụng để chuyển đổi timestamp từ Firestore thành định dạng ngày giờ có thể đọc được. Hãy phân tích từng phần:
+  //     1. cmt.createAt.seconds :
+  //        - Trong Firestore, timestamp được lưu trữ dưới dạng đối tượng có thuộc tính seconds (và nanoseconds )
+  //        - Thuộc tính seconds chứa số giây kể từ Unix Epoch (1/1/1970 00:00:00 UTC)
+  //     2. * 1000 :
+  //        - JavaScript sử dụng milliseconds (phần nghìn giây) thay vì seconds
+  //        - Vì vậy ta cần nhân với 1000 để chuyển từ seconds sang milliseconds
+  //     3. new Date(...) :
+  //        - Tạo một đối tượng Date mới từ timestamp đã được chuyển đổi sang milliseconds
+  //        - Đối tượng Date này sẽ đại diện cho thời điểm chính xác của timestamp
+  //     4. .toLocaleString() :
+  //        - Chuyển đổi đối tượng Date thành chuỗi theo định dạng ngày giờ của locale (khu vực) hiện tại
+  //        - Ví dụ ở Việt Nam, kết quả sẽ có dạng: "23/12/2023, 15:30:45"
+
+  //      // Giả sử cmt.createAt.seconds = 1703313045
+  //      const timestamp = new Date(1703313045 * 1000).toLocaleString();
+  //      // Kết quả: "23/12/2023, 15:30:45" (định dạng có thể khác tùy theo locale của máy)
+
   if (allComments.length > 0 && allComments.length <= 5) {
     commentContainer.innerHTML += `
         <div class="no-more-comments">

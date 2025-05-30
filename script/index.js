@@ -14,15 +14,18 @@ const fetchTrending = async (timeWindow) => {
   const url = `https://api.themoviedb.org/3/trending/movie/${timeWindow}?api_key=${API_KEY}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url); // Gửi yêu cầu GET đến API
+
+    // Kiểm tra nếu response không thành công
     if (!response.ok) {
       throw Error("Network was not ok", response.status);
     }
 
-    const data = await response.json();
+    const data = await response.json(); // Chuyển đổi response thành JSON
     // console.log(data.results);
-    return data.results;
+    return data.results; // Trả về mảng kết quả phim
   } catch (e) {
+    // Xử lý và in ra lỗi nếu có
     console.log("Error", e);
   }
 };
@@ -47,30 +50,33 @@ const fetchPopular = async () => {
 // Fetch movies coming soon from Firebase
 const fetchMoviesComingSoon = async () => {
   try {
+    // Lấy tất cả documents từ collection "movies-coming-soon"
     const querySnapshot = await getDocs(collection(db, "movies-coming-soon"));
     const movies = [];
+    // Lặp qua từng document và thêm dữ liệu vào mảng movies
     querySnapshot.forEach((doc) => {
       movies.push(doc.data());
     });
-    return movies;
+    return movies; // Trả về mảng phim sắp chiếu
   } catch (error) {
-    console.error("Lỗi khi tải danh sách phim sắp chiếu:", error);
-    return [];
+    console.error("Lỗi khi tải danh sách phim sắp chiếu:", error); // Xử lý lỗi và in ra console
+    return []; // Trả về mảng rỗng nếu có lỗi
   }
 };
 
 // Fetch room services
 const fetchRoomServices = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, "services"));
+    const querySnapshot = await getDocs(collection(db, "services")); // Lấy tất cả documents từ collection "services"
     const services = [];
+    // Lặp qua từng document và thêm dữ liệu cùng với ID vào mảng services
     querySnapshot.forEach((doc) => {
       services.push({ id: doc.id, ...doc.data() });
     });
-    return services;
+    return services; // Trả về mảng dịch vụ phòng
   } catch (error) {
-    console.error("Lỗi khi tải danh sách phòng:", error);
-    return [];
+    console.error("Lỗi khi tải danh sách phòng:", error); // Xử lý lỗi và in ra console
+    return []; // Trả về mảng rỗng nếu có lỗi
   }
 };
 
@@ -88,7 +94,7 @@ const displayTrendingMovie = (movies) => {
       </a>
     `;
     })
-    .join("");
+    .join(""); // Nối các phần tử HTML lại với nhau
 };
 
 // Hiển thị popular movie
@@ -164,15 +170,17 @@ const displayRoomServices = (services) => {
     )
     .join("");
 
-  const bookButtons = document.querySelectorAll(".book-btn");
+  const bookButtons = document.querySelectorAll(".book-btn"); // Lấy tất cả các nút đặt phòng
+  // Thêm sự kiện click cho từng nút
   bookButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
+      // Kiểm tra trạng thái đăng nhập của người dùng
       onAuthStateChanged(auth, (user) => {
         if (!user) {
           alert("Vui lòng đăng nhập để đặt phòng");
           return;
         } else {
-          const roomId = e.target.getAttribute("data-room-id");
+          const roomId = e.target.getAttribute("data-room-id"); // Lấy ID phòng từ thuộc tính data-room-id
           openBookingModal(roomId);
         }
       });
@@ -191,13 +199,23 @@ fetchRoomServices().then(displayRoomServices);
 // CAROUSEL CINEMA
 async function initializeCarousel() {
   try {
-    const movies = await fetchTrending("day");
-    const currentDate = new Date().getDate();
+    const movies = await fetchTrending("day"); // Lấy danh sách phim thịnh hành trong ngày
+    const currentDate = new Date().getDate(); // Lấy ngày hiện tại
 
     // Lấy 3 phim từ danh sách theo ngày hiện tại
     const mainMovies = [
+      // Sử dụng phép chia lấy dư để luân phiên phim theo ngày
+
+      // Phim thứ nhất: Lấy phần dư của ngày hiện tại chia cho độ dài mảng movies
+      // Ví dụ: Nếu hôm nay là ngày 15 và có 10 phim, thì 15 % 10 = 5, sẽ lấy phim thứ 5
       movies[currentDate % movies.length],
+
+      // Phim thứ hai: Lấy phần dư của (ngày hiện tại + 1) chia cho độ dài mảng
+      // Tiếp ví dụ trên: (15 + 1) % 10 = 6, sẽ lấy phim thứ 6
       movies[(currentDate + 1) % movies.length],
+
+      // Phim thứ ba: Lấy phần dư của (ngày hiện tại + 2) chia cho độ dài mảng
+      // Tiếp ví dụ trên: (15 + 2) % 10 = 7, sẽ lấy phim thứ 7
       movies[(currentDate + 2) % movies.length],
     ];
 
@@ -318,12 +336,27 @@ const closeBtn = document.querySelector(".close-btn");
 const bookingForm = document.getElementById("bookingForm");
 
 function openBookingModal(roomId) {
-  modal.classList.add("active");
-  bookingForm.setAttribute("data-room-id", roomId);
+  modal.classList.add("active"); // Thêm class active để hiển thị modal
+  bookingForm.setAttribute("data-room-id", roomId); // Lưu ID phòng vào form
 
   // Đặt ngày tối thiểu là hôm nay
   const today = new Date().toISOString().split("T")[0];
-  document.getElementById("bookingDate").min = today;
+  // Giải thích từng bước:
+  // 1. new Date() - Tạo một đối tượng Date chứa thời gian hiện tại
+  // Ví dụ: Wed Mar 20 2024 15:30:45 GMT+0700
+
+  // 2. .toISOString() - Chuyển đổi thành chuỗi theo định dạng ISO
+  // Kết quả: "2024-03-20T08:30:45.000Z"
+  // Trong đó:
+  // - 2024-03-20: là ngày (năm-tháng-ngày)
+  // - T: là ký tự phân cách giữa ngày và giờ
+  // - 08:30:45.000Z: là giờ theo múi giờ UTC
+
+  // 3. .split("T")[0] - Tách chuỗi tại ký tự "T" và lấy phần tử đầu tiên
+  // Kết quả cuối cùng: "2024-03-20"
+  // Đây là định dạng phù hợp để sử dụng cho input type="date"
+
+  document.getElementById("bookingDate").min = today; // Đặt giá trị min cho input date
 }
 
 closeBtn.addEventListener("click", () => {
@@ -376,11 +409,11 @@ bookingForm.addEventListener("submit", async (e) => {
 });
 
 const swiper = new Swiper(".swiper", {
-  SpaceBetween: 30,
-  autoplay: { delay: 5000, disableOnInteraction: true },
-  slidesPerView: "auto",
-  loop: true,
-  slidesPerGroupAuto: true,
+  SpaceBetween: 30, // Khoảng cách giữa các slide (px)
+  autoplay: { delay: 5000, disableOnInteraction: true }, // Thời gian chuyển slide (5 giây) // Dừng autoplay khi người dùng tương tác
+  slidesPerView: "auto", // Số slide hiển thị tự động theo container
+  loop: true, // Lặp vô tận
+  slidesPerGroupAuto: true, // Số slide chuyển mỗi lần tự động theo slidesPerView
 
   navigation: {
     nextEl: ".swiper-button-next",

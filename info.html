@@ -61,21 +61,32 @@
 
     <main>
       <!-- INFO MOVIE -->
+      <!-- Phần banner chứa thông tin chi tiết của phim -->
       <div class="banner-container">
+        <!-- Container chứa ảnh poster phim -->
         <div class="banner-preview-img-container">
           <img src="" alt="Movie Poster" id="preview-img" />
         </div>
+        <!-- Container chứa thông tin chi tiết phim -->
         <div class="banner-info-container">
           <h1 id="movie-title">Movie Title</h1>
+          <!-- Tiêu đề phim -->
+
           <p id="movie-description">Movie description goes here.</p>
+          <!-- Mô tả phim -->
+
           <p id="movie-release-date">Release date:</p>
+          <!-- Ngày phát hành -->
           <div class="rating-container" id="rating-container">
             <div class="stars">
+              <!-- 5 ngôi sao để đánh giá -->
               <i class="fas fa-star" data-rating="1"></i>
               <i class="fas fa-star" data-rating="2"></i>
               <i class="fas fa-star" data-rating="3"></i>
               <i class="fas fa-star" data-rating="4"></i>
               <i class="fas fa-star" data-rating="5"></i>
+
+              <!-- Nút xóa đánh giá, mặc định ẩn -->
               <button
                 id="remove-rating"
                 class="remove-rating"
@@ -84,12 +95,16 @@
                 <i class="fas fa-times"></i> Xóa đánh giá
               </button>
             </div>
+
+            <!-- Hiển thị số điểm và số lượt đánh giá -->
             <p class="rating-text">
               Đánh giá: <span id="rating-value">0</span>/5
               <i class="fas fa-star star"></i> (<span id="rating-count">0</span>
               lượt)
             </p>
           </div>
+
+          <!-- Các nút tương tác: xem trailer, xem phim, yêu thích -->
           <div class="btn_watch" id="btn_watch">
             <a
               href="#"
@@ -115,7 +130,9 @@
       <!-- CAST -->
       <div class="casts-container">
         <h2>Cast</h2>
-        <div id="casts-grid"></div>
+        <div id="casts-grid">
+          <!-- Grid chứa ảnh và thông tin diễn viên hiển thị bằng js -->
+        </div>
       </div>
 
       <!-- SIMILAR -->
@@ -125,6 +142,7 @@
         <div class="swiper">
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper" id="similar-movie">
+            <!-- Các slide sẽ được thêm vào đây động bằng JavaScript -->
             <!-- Slides -->
             <!-- <a href="#" class="swiper-slide">
               <img src="../image/test.jpg" alt="films1" />
@@ -141,6 +159,7 @@
       <!-- BÌNH LUẬN -->
       <section class="cinema-comment">
         <hr />
+        <!-- Đường kẻ phân cách -->
         <h2>Comment</h2>
 
         <!-- NHẬP BÌNH LUẬN -->

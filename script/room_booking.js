@@ -48,6 +48,7 @@ function formatNumber(num) {
   }
   return num.toString();
 }
+// toFixed làm tròn đến chữ số thứ nhất sau dấu phẩy
 
 // Approved booking
 window.approvedBooking = async function (bookingId) {

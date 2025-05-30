@@ -13,7 +13,21 @@ body {
 
 .banner-preview-img-container {
   width: 300px;
-  flex-shrink: 0;
+  flex-shrink: 0; /* - Ngăn phần tử co lại khi không đủ không gian */
+  /* Giải thích chi tiết:
+1. flex-shrink là thuộc tính CSS xác định khả năng co lại của một flex item
+2. Giá trị 0 có nghĩa là:
+   - Phần tử sẽ KHÔNG co lại khi container không đủ không gian
+   - Phần tử giữ nguyên kích thước ban đầu của nó
+   - Có thể gây tràn container nếu không gian không đủ
+
+3. Ngược lại, flex-shrink: 1 (giá trị mặc định) cho phép phần tử co lại
+
+Ví dụ:
+- Khi container rộng 500px có 3 items mỗi cái 200px:
+- Với flex-shrink: 1 -> Mỗi item sẽ co lại còn khoảng 166px
+- Với flex-shrink: 0 -> Items giữ nguyên 200px và tràn ra ngoài container
+*/
 }
 
 .banner-preview-img-container > img {

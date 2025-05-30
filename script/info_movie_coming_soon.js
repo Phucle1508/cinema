@@ -41,7 +41,7 @@ const displayMovieDetails = async (movie) => {
 
 fetchMoviesComingSoonDetails().then((movies) => {
   if (movies.length > 0) {
-    displayMovieDetails(movies[0]);
+    displayMovieDetails(movies[0]); // Hiển thị thông tin của phim đầu tiên tìm được
   } else {
     console.error("Không tìm thấy thông tin phim");
   }

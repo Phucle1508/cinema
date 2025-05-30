@@ -79,6 +79,7 @@ const displayMovieDetails = async (movie) => {
         <p>You need to be logged in to comment</p>
       `;
     } else {
+      // Tạo avatar từ email người dùng sử dụng DiceBear API
       document.getElementById("comment-box-container").innerHTML = `
         <img id="avatar-comment" src="${`https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(
           user.email || "Guest"
@@ -101,7 +102,7 @@ const displayMovieDetails = async (movie) => {
         .addEventListener("submit", handleCommentSubmit);
 
       favoriteBtn.style.display = "flex";
-      const notFavorite = await checkFavoriteStatus(movie.id);
+      const notFavorite = await checkFavoriteStatus(movie.id); // Kiểm tra trạng thái yêu thích của phim
       if (notFavorite) {
         favoriteBtn.classList.remove("active");
         favoriteBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Yêu thích';
@@ -165,7 +166,8 @@ const handleCommentSubmit = function (event) {
 
   if (commentText) {
     addDoc(collection(db, `movie-comment-${movieId}`), {
-      title: commentText,
+      title: commentText, // Nội dung bình luận
+      // Thông tin người dùng
       user: {
         uid: auth.currentUser.uid,
         displayName: auth.currentUser.email,
@@ -173,25 +175,40 @@ const handleCommentSubmit = function (event) {
           auth.currentUser.email || "Guest"
         )}`,
       },
-      createAt: serverTimestamp(),
+      createAt: serverTimestamp(), // Thời gian tạo bình luận
     });
 
-    commentInput.value = "";
+    commentInput.value = ""; // Xóa nội dung input sau khi submit
   }
 };
 
-let commentsPerPage = 5;
-let currentPage = 1;
-let allComments = [];
+let commentsPerPage = 5; // Số bình luận hiển thị mỗi trang
+let currentPage = 1; // Trang hiện tại
+let allComments = []; // Mảng lưu tất cả bình luận
 
-// Hàm lấy dữ liệu
+// Hàm lấy dữ liệu bình luận từ Firestore
 const fetchComments = async () => {
   try {
+    // Tạo query lấy bình luận, sắp xếp theo thời gian mới nhất
     const q = query(
       collection(db, `movie-comment-${movieId}`),
       orderBy("createAt", "desc")
     );
+    // 1. query(...) :
+    // - Đây là hàm của Firestore dùng để tạo truy vấn
+    // - Cho phép chúng ta xác định điều kiện và cách sắp xếp kết quả
+    // 2. collection(db, movie-comment-${movieId} ) :
+    // - Xác định collection (bộ sưu tập) cần truy vấn trong database
+    // - db : là đối tượng Firestore database đã được khởi tạo
+    // - `movie-comment-${movieId}` : tên collection động dựa vào movieId
+    //   - Ví dụ: nếu movieId = "123" thì collection sẽ là "movie-comment-123"
+    //   - Mỗi phim sẽ có một collection bình luận riêng
+    // 3. orderBy("createAt", "desc") :
+    // - Sắp xếp kết quả truy vấn theo trường createAt
+    // - "desc" (descending): sắp xếp giảm dần (mới nhất lên đầu)
+    // - Bình luận mới nhất (thời gian tạo gần nhất) sẽ được hiển thị trước
 
+    // Lắng nghe sự thay đổi của collection bình luận
     const onsnapshot = onSnapshot(q, (querySnapshot) => {
       allComments = [];
       querySnapshot.forEach((doc) => {
@@ -337,6 +354,24 @@ const displayComments = function (comments) {
     `;
     })
     .join("");
+
+  //     Dòng code new Date(cmt.createAt.seconds * 1000).toLocaleString() được sử dụng để chuyển đổi timestamp từ Firestore thành định dạng ngày giờ có thể đọc được. Hãy phân tích từng phần:
+  //     1. cmt.createAt.seconds :
+  //        - Trong Firestore, timestamp được lưu trữ dưới dạng đối tượng có thuộc tính seconds (và nanoseconds )
+  //        - Thuộc tính seconds chứa số giây kể từ Unix Epoch (1/1/1970 00:00:00 UTC)
+  //     2. * 1000 :
+  //        - JavaScript sử dụng milliseconds (phần nghìn giây) thay vì seconds
+  //        - Vì vậy ta cần nhân với 1000 để chuyển từ seconds sang milliseconds
+  //     3. new Date(...) :
+  //        - Tạo một đối tượng Date mới từ timestamp đã được chuyển đổi sang milliseconds
+  //        - Đối tượng Date này sẽ đại diện cho thời điểm chính xác của timestamp
+  //     4. .toLocaleString() :
+  //        - Chuyển đổi đối tượng Date thành chuỗi theo định dạng ngày giờ của locale (khu vực) hiện tại
+  //        - Ví dụ ở Việt Nam, kết quả sẽ có dạng: "23/12/2023, 15:30:45"
+
+  //      // Giả sử cmt.createAt.seconds = 1703313045
+  //      const timestamp = new Date(1703313045 * 1000).toLocaleString();
+  //      // Kết quả: "23/12/2023, 15:30:45" (định dạng có thể khác tùy theo locale của máy)
 
   if (allComments.length > 0 && allComments.length <= 5) {
     commentContainer.innerHTML += `
@@ -597,6 +632,14 @@ const initializeRating = async () => {
 window.deleteComment = deleteComment;
 // Thêm hàm editComment vào window object để có thể gọi từ onclick
 window.editComment = editComment;
+
+// Hai dòng code window.deleteComment = deleteComment; và window.editComment = editComment; được thêm vào cuối file vì một lý do quan trọng liên quan đến cách modules JavaScript hoạt động:
+
+// 1. Khi sử dụng ES modules (với import/export ), các hàm và biến được khai báo trong module có phạm vi (scope) chỉ trong module đó. Điều này có nghĩa là chúng không tự động trở thành thuộc tính của đối tượng window (global scope) như trong JavaScript thông thường.
+// 2. Trong file HTML của chúng ta, các hàm deleteMovie và editMovie được gọi thông qua các sự kiện onclick trực tiếp trong HTML:
+// 3. Khi trình duyệt thực thi các sự kiện onclick , nó sẽ tìm kiếm các hàm này trong phạm vi global ( window ). Nếu không có các dòng gán window.deleteComment = deleteComment và window.editComment = editComment , trình duyệt sẽ không thể tìm thấy các hàm này và sẽ gây ra lỗi ReferenceError .
+// 4. Bằng cách gán các hàm cho window , chúng ta đang làm cho các hàm này có thể truy cập được từ phạm vi global, cho phép các sự kiện onclick trong HTML có thể gọi được các hàm này.
+// Đây là một kỹ thuật phổ biến khi làm việc với ES modules và các sự kiện inline trong HTML. Tuy nhiên, một cách tiếp cận tốt hơn là sử dụng addEventListener trong JavaScript thay vì các sự kiện inline trong HTML để tránh phải thêm các hàm vào window object.
 
 const swiper = new Swiper(".swiper", {
   SpaceBetween: 30,

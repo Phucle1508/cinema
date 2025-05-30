@@ -1,6 +1,5 @@
 import {
   createUserWithEmailAndPassword,
-  fetchSignInMethodsForEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
@@ -17,7 +16,13 @@ btn.addEventListener("click", async (e) => {
   function isValidPassword(password) {
     const hasMinLength = password.length >= 6;
     const hasUpperCase = /[A-Z]/.test(password);
+    // Kiểm tra có ít nhất 1 chữ in hoa
+    // /[A-Z]/ là regular expression tìm ký tự từ A đến Z viết hoa
+    // .test(password) kiểm tra xem password có khớp với pattern không
+
     const hasNumber = /[0-9]/.test(password);
+    // Kiểm tra có ít nhất 1 số
+    // /[0-9]/ là regular expression tìm ký tự từ 0 đến 9
 
     return hasMinLength && hasUpperCase && hasNumber;
   }
@@ -37,17 +42,6 @@ btn.addEventListener("click", async (e) => {
     alert("Password do not match!");
     return;
   }
-
-  fetchSignInMethodsForEmail(auth, email)
-    .then((signInMethods) => {
-      if (signInMethods.length > 0) {
-        alert("Email này đã được đăng ký!");
-        return;
-      }
-    })
-    .catch((error) => {
-      console.error("Lỗi khi kiểm tra email:", error.message);
-    });
 
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -103,8 +97,7 @@ login_google.addEventListener("click", async (e) => {
     .then((result) => {
       const user = result.user;
       alert(`Chào ${user.displayName}`);
-      console.log("ken");
-      window.location.href = "../index.html";
+      window.location.href = "./index.html";
     })
     .catch((error) => {
       console.error("Đăng nhập lỗi:", error.message);

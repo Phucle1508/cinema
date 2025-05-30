@@ -1,6 +1,8 @@
 .booking-history {
   padding: 2rem;
-  min-height: calc(100vh - 200px);
+  min-height: calc(
+    100vh - 200px
+  ); /* Tính chiều cao tối thiểu: chiều cao toàn bộ màn hình trừ 200px */
 }
 
 .booking-history h2 {
@@ -15,7 +17,7 @@
 .booking-table-container {
   max-width: 1200px;
   margin: 0 auto;
-  overflow-x: auto;
+  overflow-x: auto; /* có thể kéo qua lại nếu bảng ko đủ chỗ */
 }
 
 .booking-table {

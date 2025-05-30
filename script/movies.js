@@ -1,3 +1,4 @@
+/* Giống popular movie */
 import { API_KEY } from "./config.js";
 const fetchMovies = async () => {
   let url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=vi-VN&region=VN
